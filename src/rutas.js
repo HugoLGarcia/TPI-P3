@@ -1,10 +1,18 @@
 import express from 'express';
 
+//Importamos la función para testeo de conexión a bd
+import { testConexion } from './db/conexion/test-conexion.js';
+
 //Importamos consultas
-import {getAllUsuarios, getUsuarioById, getUsuariosByApellido} from './consultas.js';
+import {getAllUsuarios, getUsuarioById, getUsuariosByApellido, agregarUnUsuario} from './db/consultas/usuarios_consultas.js';
+
+// TEST BASE DE DATOS
+//⚠️ Tal cual al tp
+await testConexion();
 
 const app = express();
-const port = 3000;
+
+const port = process.env.Puerto || 3000;
 
 app.use(express.json());
 
@@ -81,6 +89,17 @@ app.get('/usuariosapellido/:apellido', (req, res) => {
             res.status(500).json({ error: 'Error fetching usuario' });
         });
 });
-       
+      
+app.post('/usuarios', (req, res) => {
+    agregarUnUsuario(req.body)
+        .then(result => {
+            // ⚠️ Aunque no funcione Bruno da 201
+            res.status(201).json(result);
+        })
+        .catch(err => {
+            console.error('Error creating usuario:', err);
+            res.status(500).json({ error: 'Error creating usuario' });
+        });
+});
 
 app.listen(port, () => console.log(`Servidor iniciado en el puerto ${port}`))

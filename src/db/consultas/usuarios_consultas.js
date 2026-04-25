@@ -1,28 +1,41 @@
+//❓Podría ser un .js por cada entidad
+// y algún otro para consultas complejas❓
 //Uso dotenv para levantar el archivo de configuración .env
+//⚠️ Creo que deberíamos utilizar el método nativo "process.loadEnvFile();"
+// que es el que utilizan Cristian (Pero no Ignacio)
 import dotenv from 'dotenv';
+dotenv.config();
+
 //Uso mysql2/promise para conectarme a MySQL usando promises
 import mysql from 'mysql2/promise';
-dotenv.config();
+
+//1️⃣ Se importa para probar una vez por ahora
+import { pool } from '../conexion/conexion.js';
 
 async function getAllUsuarios() {
   try {
     // Creo la conexión
+    //Para todas estas funciones deberemos armar la conección
+    //de acuerdo a lo que mostró Cristian
+    /* 1️⃣ Comentada para usar pool
     const conexion = await mysql.createConnection({
       host: process.env.DB_HOST,
       user: process.env.DB_USER,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
     });
+    */
 
     // Defino el string de consulta
     const sqlQuery = 'SELECT * FROM usuarios';
 
     // Ejecuto la consulta
-    const [rows] = await conexion.query(sqlQuery);
+    // 1️⃣Modificado para uso de pool
+    const [rows] = await pool.query(sqlQuery);
 
     console.log('Query results:', rows);
-
-    await conexion.end();
+    //1️⃣Modificado para uso de pool, se cierra sola ahora?
+    await pool.end();
 
     return rows;
 
@@ -103,7 +116,39 @@ async function getUsuariosByApellido(apellidoParcial) {
   }
 }
 
-export {getAllUsuarios, getUsuarioById, getUsuariosByApellido};
+//Ver si utilizaremos inglés o castellano 
+//Ver si utilizaremos en los nombres los verbos agregar, obtener, etc.
+async function agregarUnUsuario(datos) {
+  try {
+    // Creo la conexión
+    const conexion = await mysql.createConnection({
+      host: process.env.DB_HOST,
+      user: process.env.DB_USER,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_NAME,
+    });
+
+    // Defino el string de consulta
+    const sqlQuery = 'INSERT INTO usuarios (documento, apellido, nombres, email, contrasenia, foto_path, rol, activo) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
+
+    // ⚠️ Validación básica, esto debería ser un middleware?
+    // ⚠️ No debería seguir si no está completo. 
+    if (!datos.documento || !datos.nombres || !datos.email) {
+        return { error: 'Faltan campos obligatorios' };
+    }
+
+    const [result] = await conexion.execute(sqlQuery, [`${datos.documento}`, `${datos.apellido}`, `${datos.nombres}`, `${datos.email}`, `${datos.contrasenia}`, `${datos.foto_path}`, `${datos.rol}`, `${datos.activo}`]);
+
+    return result;
+        
+    await conexion.end();
+
+  } catch (err) {
+    console.error('Error executing SELECT query:', err);
+  }
+}
+
+export {getAllUsuarios, getUsuarioById, getUsuariosByApellido, agregarUnUsuario};
 
 //getAllUsuarios();
 //getUsuarioById(1);
