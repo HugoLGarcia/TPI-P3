@@ -52,7 +52,7 @@ La clínica médica para la que desarrolló el sitio web y aplicación con funci
 cliente desea completar el proyecto para lo cual le encarga el desarrollo de una aplicación del lado
 del servidor que permita registrar el siguiente modelo de datos:
 
-<img width="632" height="518" alt="Captura de pantalla_2026-04-21_20-15-49" src="https://github.com/user-attachments/assets/6af0107c-a491-4e37-9514-0413a585e131" />
+<img width="632" height="518" alt="Captura de pantalla_2026-04-21_20-15-49" src="https://github.com/user-attachments/assets/aaf2ac99-7686-499f-ab38-53b5796f29da" />
 
 
 REQUISITOS FUNCIONALES
