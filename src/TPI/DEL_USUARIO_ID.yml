@@ -1,0 +1,19 @@
+info:
+  name: DEL_USUARIO_ID
+  type: http
+  seq: 1
+
+http:
+  method: DELETE
+  url: http://localhost:3000/usuarios/:id
+  params:
+    - name: id
+      value: "27"
+      type: path
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

@@ -4,7 +4,9 @@ import express from 'express';
 import { testConexion } from './db/conexion/test-conexion.js';
 
 //Importamos consultas
-import {getAllUsuarios, getUsuarioById, getUsuariosByApellido, agregarUnUsuario} from './db/consultas/usuarios_consultas.js';
+import {getAllUsuarios, getUsuarioById, getUsuariosByApellido,
+     agregarUnUsuario, borrarUsuarioPorId,
+      modificarUsuarioPorId, modificarCorreoUsuarioPorId} from './db/consultas/usuarios_consultas.js';
 
 const app = express();
 
@@ -103,6 +105,54 @@ app.post('/usuarios', (req, res) => {
         .catch(err => {
             console.error('Error de servidor al crear usuario:', err);
             res.status(500).json({ error: 'Error de servidor al crear usuario' });
+        });
+});
+
+app.delete('/usuarios/:id', (req, res) => {
+    const { id } = req.params;
+    borrarUsuarioPorId(id)
+        .then(resultado => {
+            if (resultado.error) {
+                res.status(404).json(resultado);
+            } else {
+                res.json(resultado);
+            }
+        })
+        .catch(err => {
+            console.error('Error de servidor al borrar usuario:', err);
+            res.status(500).json({ error: 'Error de servidor al borrar usuario' });
+        });
+});
+
+app.put('/usuarios/:id', (req, res) => {
+    const { id } = req.params;
+    modificarUsuarioPorId(id, req.body)
+        .then(resultado => {
+            if (resultado.error) {
+                res.status(404).json(resultado);
+            } else {
+                res.json(resultado);
+            }
+        })
+        .catch(err => {
+            console.error('Error de servidor al modificar usuario:', err);
+            res.status(500).json({ error: 'Error de servidor al modificar usuario' });
+        });
+});
+
+app.patch('/usuarios/:id', (req, res) => {
+    const { id } = req.params;
+    modificarCorreoUsuarioPorId(id, req.body.email)
+        .then(resultado => {
+            if (resultado.error) {
+                res.status(404).json(resultado);
+            } else {
+                res.json(resultado);
+            }
+        })
+        .catch(err => {
+            console.error('Error de servidor al modificar correo de usuario:', err);
+            res.status(500).json({ error: 'Error de servidor al modificar correo de usuario' });
         });
 });
 

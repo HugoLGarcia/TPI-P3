@@ -34,7 +34,7 @@ async function getAllUsuarios() {
     const [rows] = await pool.query(sqlQuery);
 
     console.log('Query results:', rows);
-    //1️⃣Modificado para uso de pool, se cierra sola ahora?
+    // 1️⃣Modificado para uso de pool, se cierra sola ahora?
     await pool.end();
 
     return rows;
@@ -135,10 +135,9 @@ async function agregarUnUsuario(datos) {
 
     // ⚠️ Validación básica, esto debería ser un middleware?
     // ⚠️ No debería seguir si no está completo. 
-    if (!datos.documento || !datos.nombres || !datos.email 
-      || !datos.contrasenia || !datos.foto_path || !datos.rol 
-      || !datos.activo) {
-        return { error: 'Faltan campos obligatorios' };
+    if (!datos.documento || !datos.apellido || !datos.nombres ||
+       !datos.email || !datos.contrasenia || !(datos.foto_path >=0)|| !datos.rol || !datos.activo) {
+      return { error: 'Faltan campos obligatorios' };
     }
 
     const [result] = await conexion.execute(sqlQuery, [`${datos.documento}`,
@@ -155,7 +154,121 @@ async function agregarUnUsuario(datos) {
   }
 }
 
-export {getAllUsuarios, getUsuarioById, getUsuariosByApellido, agregarUnUsuario};
+async function borrarUsuarioPorId(idUsuario) {
+  //1️⃣ Comentada para usar pool
+  //let conexion;
+
+  try {
+    // Creo la conexión
+    /* 1️⃣ Comentada para usar pool
+    conexion = await mysql.createConnection({
+      host: process.env.DB_HOST,
+      user: process.env.DB_USER,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_NAME,
+    });
+    */
+
+    // Defino el string de consulta
+    const sqlQuery = 'DELETE FROM usuarios WHERE id_usuario = ?';
+
+    // Ejecuto la consulta
+    // 1️⃣Modificada para uso de pool
+    const [result] = await pool.query(sqlQuery, [idUsuario]);
+
+    if (result.affectedRows === 0) {
+      console.log(`No se encontró un usuario con id_usuario = ${idUsuario}`);
+      return { error: `No se encontró un usuario con id_usuario = ${idUsuario}` };
+    } else {
+      console.log('Query results:', result);
+      return { message: `Usuario borrado con éxito (id_usuario = ${idUsuario})`, result };
+    }
+  } catch (err) {
+    console.error('Error al intentar borrar un usuario:', err);
+  } 
+  
+  // 1️⃣Modificado para uso de pool, se cierra sola ahora?
+    await pool.end();
+}
+
+async function modificarUsuarioPorId(idUsuario, datos) {
+  //1️⃣ Comentada para usar pool
+  //let conexion;
+
+  try {
+    // Creo la conexión
+    /* 1️⃣ Comentada para usar pool
+    conexion = await mysql.createConnection({
+      host: process.env.DB_HOST,
+      user: process.env.DB_USER,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_NAME,
+    });
+    */
+
+    // Defino el string de consulta
+    const sqlQuery = 'UPDATE usuarios SET documento = ?, apellido = ?, nombres = ?, email = ?, contrasenia = ?, foto_path = ?, rol = ?, activo = ? WHERE id_usuario = ?';
+
+    // Ejecuto la consulta
+    // 1️⃣Modificada para uso de pool
+    const [result] = await pool.query(sqlQuery, [`${datos.documento}`, `${datos.apellido}`, `${datos.nombres}`, `${datos.email}`, `${datos.contrasenia}`, `${datos.foto_path}`, `${datos.rol}`, `${datos.activo}`, idUsuario]);
+
+    if (result.affectedRows === 0) {
+      console.log(`No se encontró un usuario con id_usuario = ${idUsuario}`);
+      return { error: `No se encontró un usuario con id_usuario = ${idUsuario}` };
+    } else {
+      console.log('Query results:', result);
+      return { message: `Usuario modificado con éxito (id_usuario = ${idUsuario})`, result };
+    }
+  } catch (err) {
+    console.error('Error al intentar modificar datos de usuario:', err);
+  } 
+  
+  // 1️⃣Modificado para uso de pool, se cierra sola ahora?
+    await pool.end();
+}
+
+async function modificarCorreoUsuarioPorId(idUsuario, correo) {
+  //1️⃣ Comentada para usar pool
+  //let conexion;
+
+  try {
+    // Creo la conexión
+    /* 1️⃣ Comentada para usar pool
+    conexion = await mysql.createConnection({
+      host: process.env.DB_HOST,
+      user: process.env.DB_USER,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_NAME,
+    });
+    */
+
+    // Defino el string de consulta
+    const sqlQuery = 'UPDATE usuarios SET email = ? WHERE id_usuario = ?';
+
+    // Ejecuto la consulta
+    // 1️⃣Modificada para uso de pool
+    const [result] = await pool.query(sqlQuery, [`${correo}`, idUsuario]);
+
+    if (result.affectedRows === 0) {
+      console.log(`No se encontró un usuario con id_usuario = ${idUsuario}`);
+      return { error: `No se encontró un usuario con id_usuario = ${idUsuario}` };
+    } else {
+      console.log('Query results:', result);
+      return { message: `Correo de usuario modificado con éxito (id_usuario = ${idUsuario}),
+      (nuevo correo = ${correo})`, result };
+    }
+  } catch (err) {
+    console.error('Error al intentar modificar datos de usuario:', err);
+  } 
+  
+  // 1️⃣Modificado para uso de pool, se cierra sola ahora?
+    await pool.end();
+}
+
+export { getAllUsuarios, getUsuarioById, getUsuariosByApellido,
+   agregarUnUsuario, borrarUsuarioPorId, modificarUsuarioPorId,
+    modificarCorreoUsuarioPorId };
 
 //getAllUsuarios();
 //getUsuarioById(1);

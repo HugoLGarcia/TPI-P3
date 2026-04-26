@@ -1,5 +1,5 @@
 info:
-  name: USUARIO
+  name: POST_USUARIO
   type: http
   seq: 1
 
@@ -10,13 +10,13 @@ http:
     type: json
     data: |-
       {
-        "documento": "3108111",
-        "apellido": "HHHH",
-        "nombres": "Jggg",
-        "email": "h42@correo.com",
-        "contrasenia": "texto_plano",
+        "documento": "91000114",
+        "apellido": "Perez",
+        "nombres": "Luis",
+        "email": "wggww@correo.com",
+        "contrasenia": "texto",
         "foto_path": "",
-        "rol": 2,
+        "rol": 1,
         "activo": 1
       }
   auth: inherit

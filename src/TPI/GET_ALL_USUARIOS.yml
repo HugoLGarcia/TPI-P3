@@ -1,5 +1,5 @@
 info:
-  name: USUARIOS
+  name: GET_ALL_USUARIOS
   type: http
   seq: 1
 
