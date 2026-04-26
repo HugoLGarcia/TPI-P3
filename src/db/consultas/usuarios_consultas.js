@@ -266,9 +266,85 @@ async function modificarCorreoUsuarioPorId(idUsuario, correo) {
     await pool.end();
 }
 
+//Esta función se puede no exportar y eliminar la ruta
+//Quedaría para uso interno de cambiarEstadoUsuarioById
+// pero la dejo por ahora para probarla desde la ruta
+async function estadoUsuarioById(idUsuario) {
+  let conexion;
+
+  try {
+    // Creo la conexión
+    conexion = await mysql.createConnection({
+      host: process.env.DB_HOST,
+      user: process.env.DB_USER,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_NAME,
+    });
+
+    // Defino el string de consulta
+    const sqlQuery = 'SELECT activo FROM usuarios WHERE id_usuario = ?';
+
+    // Ejecuto la consulta
+    const [rows] = await conexion.query(sqlQuery, [idUsuario]);
+
+    if (rows.length === 0) {
+      console.log(`No se encontró un usuario con id_usuario = ${idUsuario}`);
+      return { error: `No se encontró un usuario con id_usuario = ${idUsuario}` };
+    } else {
+      console.log('Query results:', rows[0].activo);
+      return (rows[0].activo);
+    }
+  } catch (err) {
+    console.error('Error executing SELECT query:', err);
+  } finally {
+    if (conexion) {
+      await conexion.end();
+    }
+  }
+   
+}
+
+async function cambiarEstadoUsuarioById(idUsuario) {
+  const estadoActual = await estadoUsuarioById(idUsuario);
+  const nuevoEstado = estadoActual === 1 ? 0 : 1;
+  
+  let conexion;
+
+  try {
+    // Creo la conexión
+    conexion = await mysql.createConnection({
+      host: process.env.DB_HOST,
+      user: process.env.DB_USER,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_NAME,
+    });
+
+    // Defino el string de consulta
+    const sqlQuery = 'UPDATE usuarios SET activo = ? WHERE id_usuario = ?';
+
+    // Ejecuto la consulta
+    const [result] = await conexion.query(sqlQuery, [nuevoEstado, idUsuario]);
+
+    if (result.affectedRows === 0) {
+      console.log(`No se encontró un usuario con id_usuario = ${idUsuario}`);
+      return { error: `No se encontró un usuario con id_usuario = ${idUsuario}` };
+    } else {
+      console.log('Query results:', result);
+      return { message: `Estado de usuario modificado con éxito (id_usuario = ${idUsuario})`, result };
+    }
+  } catch (err) {
+    console.error('Error executing UPDATE query:', err);
+  } finally {
+    if (conexion) {
+      await conexion.end();
+    }
+  }
+   
+}
+
 export { getAllUsuarios, getUsuarioById, getUsuariosByApellido,
    agregarUnUsuario, borrarUsuarioPorId, modificarUsuarioPorId,
-    modificarCorreoUsuarioPorId };
+    modificarCorreoUsuarioPorId, estadoUsuarioById, cambiarEstadoUsuarioById };
 
 //getAllUsuarios();
 //getUsuarioById(1);

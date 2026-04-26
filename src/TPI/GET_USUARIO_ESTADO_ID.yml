@@ -1,0 +1,18 @@
+info:
+  name: GET_USUARIO_ESTADO_ID
+  type: http
+
+http:
+  method: GET
+  url: http://localhost:3000/usuarioestado/:id
+  params:
+    - name: id
+      value: "8"
+      type: path
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

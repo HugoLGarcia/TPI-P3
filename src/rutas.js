@@ -6,7 +6,8 @@ import { testConexion } from './db/conexion/test-conexion.js';
 //Importamos consultas
 import {getAllUsuarios, getUsuarioById, getUsuariosByApellido,
      agregarUnUsuario, borrarUsuarioPorId,
-      modificarUsuarioPorId, modificarCorreoUsuarioPorId} from './db/consultas/usuarios_consultas.js';
+      modificarUsuarioPorId, modificarCorreoUsuarioPorId,
+       estadoUsuarioById, cambiarEstadoUsuarioById} from './db/consultas/usuarios_consultas.js';
 
 const app = express();
 
@@ -153,6 +154,40 @@ app.patch('/usuarios/:id', (req, res) => {
         .catch(err => {
             console.error('Error de servidor al modificar correo de usuario:', err);
             res.status(500).json({ error: 'Error de servidor al modificar correo de usuario' });
+        });
+});
+
+//Esta ruta (O controlador?) se podría sacar
+//Prueba la función que retorna estado actual de un usuario
+app.get('/usuarioestado/:id', (req, res) => {
+    const { id } = req.params;
+    estadoUsuarioById(id)
+        .then(usuario => {
+            if (usuario.error) {
+                res.status(404).json(usuario);
+            } else {
+                res.json(usuario);
+            }
+        })
+        .catch(err => {
+            console.error('Error de servidor al buscar usuario:', err);
+            res.status(500).json({ error: 'Error de servidor al buscar usuario' });
+        });
+});
+
+app.patch('/usuarioestado/:id', (req, res) => {
+    const { id } = req.params;
+    cambiarEstadoUsuarioById(id)
+        .then(resultado => {
+            if (resultado.error) {
+                res.status(404).json(resultado);
+            } else {
+                res.json(resultado);
+            }
+        })
+        .catch(err => {
+            console.error('Error de servidor al modificar estado de usuario:', err);
+            res.status(500).json({ error: 'Error de servidor al modificar estado de usuario' });
         });
 });
 
