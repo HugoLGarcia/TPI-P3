@@ -6,13 +6,13 @@ import { testConexion } from './db/conexion/test-conexion.js';
 //Importamos consultas
 import {getAllUsuarios, getUsuarioById, getUsuariosByApellido, agregarUnUsuario} from './db/consultas/usuarios_consultas.js';
 
-// TEST BASE DE DATOS
-//⚠️ Tal cual al tp
-await testConexion();
-
 const app = express();
 
 const port = process.env.Puerto || 3000;
+
+// TEST BASE DE DATOS
+//⚠️ Tal cual al tp
+await testConexion();
 
 app.use(express.json());
 
@@ -22,7 +22,7 @@ app.get('/', (req, res) => {
     /*
     res.type('text/plain');
     res.status(200);
-    res.send('Hola soy una app Express!!');
+    res.send('Hola soy una app Express para tus turnos!!');
     */
     //Respuesta con HTML
     res.type('text/html');
@@ -30,6 +30,7 @@ app.get('/', (req, res) => {
     res.send(`<html>
     <head></head>
     <body><h1>🏠 Hola soy una app Express!!!!!</h1>
+    <h2>🏥 Voy a gestionar la clínica!!! 🏥</h2>
     <ul>
         <li><a href="/">Inicio</a></li>
         <li><a href="/usuarios">Usuarios</a></li>
@@ -53,8 +54,8 @@ app.get('/usuarios', (req, res) => {
             res.json(usuarios);
         })
         .catch(err => {
-            console.error('Error fetching usuarios:', err);
-            res.status(500).json({ error: 'Error fetching usuarios' });
+            console.error('Error de servidor al buscar usuarios:', err);
+            res.status(500).json({ error: 'Error de servidor al buscar usuarios' });
         });
 });
 
@@ -62,15 +63,15 @@ app.get('/usuarios/:id', (req, res) => {
     const { id } = req.params;
     getUsuarioById(id)
         .then(usuario => {
-            if (usuario) {
-                res.json(usuario);
+            if (usuario.error) {
+                res.status(404).json(usuario);
             } else {
-                res.status(404).json({ error: 'Usuario not found' });
+                res.json(usuario);
             }
         })
         .catch(err => {
-            console.error('Error fetching usuario:', err);
-            res.status(500).json({ error: 'Error fetching usuario' });
+            console.error('Error de servidor al buscar usuario:', err);
+            res.status(500).json({ error: 'Error de servidor al buscar usuario' });
         });
 });
 
@@ -78,15 +79,18 @@ app.get('/usuariosapellido/:apellido', (req, res) => {
     const { apellido } = req.params;
     getUsuariosByApellido(apellido)
         .then(usuarios => {
-            if (usuarios && usuarios.length > 0) {
-                res.json(usuarios);
-            } else {
-                res.status(404).json({ error: 'Usuario not found' });
+            if (usuarios.error) {
+                if (usuarios.error.includes('al menos 3 caracteres')) {
+                    res.status(400).json(usuarios);
+                }
+                res.status(404).json(usuarios);
             }
+
+            res.json(usuarios);
         })
         .catch(err => {
-            console.error('Error fetching usuario:', err);
-            res.status(500).json({ error: 'Error fetching usuario' });
+            console.error('Error de servidor al buscar usuario:', err);
+            res.status(500).json({ error: 'Error de servidor al buscar usuario' });
         });
 });
       
@@ -97,8 +101,8 @@ app.post('/usuarios', (req, res) => {
             res.status(201).json(result);
         })
         .catch(err => {
-            console.error('Error creating usuario:', err);
-            res.status(500).json({ error: 'Error creating usuario' });
+            console.error('Error de servidor al crear usuario:', err);
+            res.status(500).json({ error: 'Error de servidor al crear usuario' });
         });
 });
 

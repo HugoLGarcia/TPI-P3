@@ -1,14 +1,14 @@
 info:
-  name: USUARIOS_ID
+  name: USUARIOS_AP_o_NOM(3+)
   type: http
   seq: 1
 
 http:
   method: GET
-  url: http://localhost:3000/usuarios/:id
+  url: http://localhost:3000/usuariosapellido/:apellido
   params:
-    - name: id
-      value: "4"
+    - name: apellido
+      value: Ben
       type: path
   auth: inherit
 

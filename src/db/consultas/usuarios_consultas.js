@@ -64,9 +64,10 @@ async function getUsuarioById(idUsuario) {
 
     if (rows.length === 0) {
       console.log(`No se encontró un usuario con id_usuario = ${idUsuario}`);
+      return { error: `No se encontró un usuario con id_usuario = ${idUsuario}` };
     } else {
       console.log('Query results:', rows[0]);
-      return rows.length > 0 ? rows[0] : { error: `No se encontró un usuario con id_usuario = ${idUsuario}` };
+      return rows[0];
     }
   } catch (err) {
     console.error('Error executing SELECT query:', err);
@@ -81,7 +82,7 @@ async function getUsuarioById(idUsuario) {
 async function getUsuariosByApellido(apellidoParcial) {
   if (apellidoParcial.trim().length < 3) {
     console.log('Debes ingresar al menos 3 caracteres para filtrar por apellido.');
-    return;
+    return { error: 'Debes ingresar al menos 3 caracteres para filtrar por nombre o apellido.' };
   }
 
   let conexion;
@@ -103,6 +104,7 @@ async function getUsuariosByApellido(apellidoParcial) {
 
     if (rows.length === 0) {
       console.log(`No se encontraron usuarios con apellido que contenga: ${apellidoParcial}`);
+      return { error: `No se encontraron usuarios con apellido que contenga: ${apellidoParcial}` };
     } else {
       console.log('Query results:', rows);
       return rows;
@@ -133,11 +135,16 @@ async function agregarUnUsuario(datos) {
 
     // ⚠️ Validación básica, esto debería ser un middleware?
     // ⚠️ No debería seguir si no está completo. 
-    if (!datos.documento || !datos.nombres || !datos.email) {
+    if (!datos.documento || !datos.nombres || !datos.email 
+      || !datos.contrasenia || !datos.foto_path || !datos.rol 
+      || !datos.activo) {
         return { error: 'Faltan campos obligatorios' };
     }
 
-    const [result] = await conexion.execute(sqlQuery, [`${datos.documento}`, `${datos.apellido}`, `${datos.nombres}`, `${datos.email}`, `${datos.contrasenia}`, `${datos.foto_path}`, `${datos.rol}`, `${datos.activo}`]);
+    const [result] = await conexion.execute(sqlQuery, [`${datos.documento}`,
+       `${datos.apellido}`, `${datos.nombres}`, `${datos.email}`,
+        `${datos.contrasenia}`, `${datos.foto_path}`, `${datos.rol}`,
+         `${datos.activo}`]);
 
     return result;
         
