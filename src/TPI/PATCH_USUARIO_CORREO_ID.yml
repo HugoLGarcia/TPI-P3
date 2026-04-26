@@ -1,5 +1,5 @@
 info:
-  name: PATCH_CORREO_USUARIO_ID
+  name: PATCH_USUARIO_CORREO_ID
   type: http
   seq: 1
 
