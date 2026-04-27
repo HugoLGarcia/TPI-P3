@@ -136,7 +136,7 @@ async function agregarUnUsuario(datos) {
     // ⚠️ Validación básica, esto debería ser un middleware?
     // ⚠️ No debería seguir si no está completo. 
     if (!datos.documento || !datos.apellido || !datos.nombres ||
-       !datos.email || !datos.contrasenia || !(datos.foto_path >=0)|| !datos.rol || !datos.activo) {
+       !datos.email || !datos.contrasenia || !(datos.foto_path.length >= 0) || !datos.rol || !datos.activo) {
       return { error: 'Faltan campos obligatorios' };
     }
 
@@ -144,6 +144,82 @@ async function agregarUnUsuario(datos) {
        `${datos.apellido}`, `${datos.nombres}`, `${datos.email}`,
         `${datos.contrasenia}`, `${datos.foto_path}`, `${datos.rol}`,
          `${datos.activo}`]);
+
+    return result;
+        
+    await conexion.end();
+
+  } catch (err) {
+    console.error('Error executing SELECT query:', err);
+  }
+}
+
+//Se prueba llamar a un procedimiento almacenado
+async function agregarUnUsuarioPaciente(datos) {
+  try {
+    // Creo la conexión
+    const conexion = await mysql.createConnection({
+      host: process.env.DB_HOST,
+      user: process.env.DB_USER,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_NAME,
+    });
+
+    // En lugar de el string de consulta llamo procedimiento
+    //const sqlQuery = 'INSERT INTO usuarios (documento, apellido, nombres, email, contrasenia, foto_path, rol, activo) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
+    const sql = 'CALL cargar_Usuario_Paciente(?, ?, ?, ?, ?, ?, ?)';
+
+    // ⚠️ Validación básica, esto debería ser un middleware?
+    // ⚠️ No debería seguir si no está completo. 
+    if (!datos.documento || !datos.apellido || !datos.nombres ||
+       !datos.email || !datos.contrasenia || !(datos.foto_path.length >= 0) || !datos.obra_social) {
+      return { error: 'Faltan campos obligatorios' };
+    }
+
+    //ℹ️ Son 7 parámetros, el último es obra_social que es específico 
+    // para pacientes, el rol (2) y activo (1) se asignan en procedimiento mysql.
+    const [result] = await conexion.execute(sql, [`${datos.documento}`,
+       `${datos.apellido}`, `${datos.nombres}`, `${datos.email}`,
+        `${datos.contrasenia}`, `${datos.foto_path}`, `${datos.obra_social}`]);
+
+    return result;
+        
+    await conexion.end();
+
+  } catch (err) {
+    console.error('Error executing SELECT query:', err);
+  }
+}
+
+//Se prueba llamar otro procedimiento almacenado
+async function agregarUnUsuarioMedico(datos) {
+  try {
+    // Creo la conexión
+    const conexion = await mysql.createConnection({
+      host: process.env.DB_HOST,
+      user: process.env.DB_USER,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_NAME,
+    });
+
+    // En lugar de el string de consulta llamo procedimiento
+    //const sqlQuery = 'INSERT INTO usuarios (documento, apellido, nombres, email, contrasenia, foto_path, rol, activo) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
+    const sql = 'CALL cargar_Usuario_Medico(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+
+    // ⚠️ Validación básica, esto debería ser un middleware?
+    // ⚠️ No debería seguir si no está completo. 
+    if (!datos.documento || !datos.apellido || !datos.nombres ||
+       !datos.email || !datos.contrasenia || !(datos.foto_path.length >= 0) ||
+        !datos.especialidad || !datos.matricula || !datos.descripcion || !datos.valor_consulta) {
+      return { error: 'Faltan campos obligatorios' };
+    }
+
+    //ℹ️ Son 7 parámetros, el último es obra_social que es específico 
+    // para pacientes, el rol (2) y activo (1) se asignan en procedimiento mysql.
+    const [result] = await conexion.execute(sql, [`${datos.documento}`,
+       `${datos.apellido}`, `${datos.nombres}`, `${datos.email}`,
+        `${datos.contrasenia}`, `${datos.foto_path}`, `${datos.especialidad}`,
+         `${datos.matricula}`, `${datos.descripcion}`, `${datos.valor_consulta}`]);
 
     return result;
         
@@ -344,7 +420,9 @@ async function cambiarEstadoUsuarioById(idUsuario) {
 
 export { getAllUsuarios, getUsuarioById, getUsuariosByApellido,
    agregarUnUsuario, borrarUsuarioPorId, modificarUsuarioPorId,
-    modificarCorreoUsuarioPorId, estadoUsuarioById, cambiarEstadoUsuarioById };
+    modificarCorreoUsuarioPorId, estadoUsuarioById,
+    cambiarEstadoUsuarioById, agregarUnUsuarioPaciente, 
+    agregarUnUsuarioMedico };
 
 //getAllUsuarios();
 //getUsuarioById(1);

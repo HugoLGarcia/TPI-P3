@@ -7,7 +7,8 @@ import { testConexion } from './db/conexion/test-conexion.js';
 import {getAllUsuarios, getUsuarioById, getUsuariosByApellido,
      agregarUnUsuario, borrarUsuarioPorId,
       modificarUsuarioPorId, modificarCorreoUsuarioPorId,
-       estadoUsuarioById, cambiarEstadoUsuarioById} from './db/consultas/usuarios_consultas.js';
+       estadoUsuarioById, cambiarEstadoUsuarioById, agregarUnUsuarioPaciente,
+        agregarUnUsuarioMedico} from './db/consultas/usuarios_consultas.js';
 
 const app = express();
 
@@ -188,6 +189,30 @@ app.patch('/usuarioestado/:id', (req, res) => {
         .catch(err => {
             console.error('Error de servidor al modificar estado de usuario:', err);
             res.status(500).json({ error: 'Error de servidor al modificar estado de usuario' });
+        });
+});
+
+app.post('/usuariopaciente', (req, res) => {
+    agregarUnUsuarioPaciente(req.body)
+        .then(result => {
+            // ⚠️ Aunque no funcione Bruno da 201
+            res.status(201).json(result);
+        })
+        .catch(err => {
+            console.error('Error de servidor al crear usuario:', err);
+            res.status(500).json({ error: 'Error de servidor al crear usuario' });
+        });
+});
+
+app.post('/usuariomedico', (req, res) => {
+    agregarUnUsuarioMedico(req.body)
+        .then(result => {
+            // ⚠️ Aunque no funcione Bruno da 201
+            res.status(201).json(result);
+        })
+        .catch(err => {
+            console.error('Error de servidor al crear usuario:', err);
+            res.status(500).json({ error: 'Error de servidor al crear usuario' });
         });
 });
 
