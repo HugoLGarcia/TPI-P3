@@ -214,8 +214,8 @@ async function agregarUnUsuarioMedico(datos) {
       return { error: 'Faltan campos obligatorios' };
     }
 
-    //ℹ️ Son 7 parámetros, el último es obra_social que es específico 
-    // para pacientes, el rol (2) y activo (1) se asignan en procedimiento mysql.
+    //ℹ️ Son 10 parámetros, los 4 últimos son específicos 
+    // para medicos, el rol (1) y activo (1) se asignan en procedimiento mysql.
     const [result] = await conexion.execute(sql, [`${datos.documento}`,
        `${datos.apellido}`, `${datos.nombres}`, `${datos.email}`,
         `${datos.contrasenia}`, `${datos.foto_path}`, `${datos.especialidad}`,
