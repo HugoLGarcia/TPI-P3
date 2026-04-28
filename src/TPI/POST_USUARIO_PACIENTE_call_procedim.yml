@@ -1,18 +1,19 @@
 info:
   name: POST_USUARIO_PACIENTE_call_procedim
   type: http
+  seq: 1
 
 http:
   method: POST
-  url: http://localhost:3000/usuariopaciente
+  url: http://localhost:3000/usuarios/paciente
   body:
     type: json
     data: |-
       {
-        "documento": "91550114",
+        "documento": "91320114",
         "apellido": "Perez",
         "nombres": "Luis",
-        "email": "wgg22ww@correo.com",
+        "email": "wggn22ww@correo.com",
         "contrasenia": "texto",
         "foto_path": "./foto2.img",
         "obra_social" : 4
