@@ -1,0 +1,20 @@
+{
+  "name": "codicvalentina",
+  "version": "1.0.0",
+  "description": "Trabajo final integrador para la materia Programación 3",
+  "main": "index.js",
+  "scripts": {
+    "start": "node --watch src/app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "helmet": "^8.1.0",
+    "mysql2": "^3.22.3"
+  }
+}

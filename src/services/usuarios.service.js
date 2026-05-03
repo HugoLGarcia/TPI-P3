@@ -1,13 +1,13 @@
 import usuariosRepository from "../repositories/usuarios.repository.js";
 import crypto from "crypto";
 
-// B - Obtener todos
+// Obtener todos los usuarios activos
 const getAll = () => usuariosRepository.getAll();
 
-// R - Obtener por ID
+// Obtener usuario por ID
 const getById = (id) => usuariosRepository.getById(id);
 
-// A - Crear usuario
+// Crear usuario
 const create = async (data) => {
   const hash = crypto
     .createHash("sha256")
@@ -19,9 +19,8 @@ const create = async (data) => {
   return await usuariosRepository.create(newData);
 };
 
-// E - Actualizar usuario
+// Actualizar usuario
 const update = async (id, data) => {
-  
   if (data.contrasenia) {
     const hash = crypto
       .createHash("sha256")
@@ -34,13 +33,17 @@ const update = async (id, data) => {
   return await usuariosRepository.update(id, data);
 };
 
-// D - Soft delete
+// Eliminar usuario
 const remove = (id) => usuariosRepository.softDelete(id);
+
+// Buscar usuarios por apellido o nombre
+const search = (texto) => usuariosRepository.search(texto);
 
 export default {
   getAll,
   getById,
   create,
   update,
-  remove
+  remove,
+  search
 };

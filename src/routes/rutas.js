@@ -1,5 +1,5 @@
-//👁️‍🗨️ En este archivo solo quedaron dos rutas de pruebas obsoletas
-//👣 Las otras (válidas) fueron a rutas_usuarios.js
+// En este archivo solo quedaron dos rutas de pruebas obsoletas
+// Las otras (válidas) fueron a rutas_usuarios.js
 
 //Importamos consultas
 /*
