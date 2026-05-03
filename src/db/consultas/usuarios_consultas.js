@@ -1,3 +1,37 @@
+//Ver lo de result.affectedRaws > 0 para mensajes de éxito o error en borrado y modificación
+//Mensaje result.insertedId
+
+//En las validaciones manuales iría express-validator
+//Se implementa como meedleware, entre la petición y el controlador, para validar los datos de entrada antes de que lleguen a la función que hace la consulta a la base de datos.
+//Si la validación falla, el middleware puede enviar una respuesta de error al cliente sin que el controlador se ejecute. 
+//Si la validación es exitosa, el middleware llama a next() para pasar el control al siguiente middleware o al controlador.
+//Se instala con npm install express-validator
+//Se importa con import { body, validationResult } from 'express-validator';
+//Se utiliza en la ruta como un array de middlewares, por ejemplo:
+//router.post('/usuarios', [
+//  body('email').isEmail().withMessage('El correo electrónico no es válido'),
+//  body('contrasenia').isLength({ min: 6 }).withMessage('La contraseña debe tener al menos 6 caracteres')
+//], (req, res) => {
+//  const errors = validationResult(req);
+//  if (!errors.isEmpty()) {
+//    return res.status(400).json({ errors: errors.array() });
+//  }
+//  // Si la validación es exitosa, se ejecuta el controlador para agregar un usuario
+//  agregarUnUsuario(req.body)
+//    .then(result => {
+//      res.status(201).json(result);
+//    })
+//    .catch(err => {
+//      console.error('Error de servidor al crear usuario:', err);
+//      res.status(500).json({ error: 'Error de servidor al crear usuario' });
+//    });
+//});
+
+//Tambien se puede check() para validar otros campos, por ejemplo:
+//body('documento').isNumeric().withMessage('El documento debe ser un número'),
+//body('apellido').notEmpty().withMessage('El apellido es obligatorio'),
+
+
 //❓Podría ser un .js por cada entidad
 // y algún otro para consultas complejas❓
 //Uso dotenv para levantar el archivo de configuración .env
