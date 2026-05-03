@@ -1,20 +1,13 @@
-import express from 'express';
-import apiRoutes from './rutas/rutas_usuarios.js';
-import 'dotenv/config';
+import express from "express";
+import usuariosRoutes from "./routes/usuarios.routes.js";
 
 const app = express();
 
-//Importamos la función para testeo de conexión a bd
-import { testConexion } from './db/conexion/test-conexion.js';
-
-// TEST BASE DE DATOS
-//⚠️ Tal cual al tp
-await testConexion();
 app.use(express.json());
 
-app.use('/', apiRoutes);
+// rutas
+app.use("/usuarios", usuariosRoutes);
 
-process.loadEnvFile();
-const port = process.env.Puerto || 3000;
-
-app.listen(port, () => console.log(`Servidor iniciado en el puerto ${port}`))
+app.listen(3000, () => {
+  console.log("Servidor corriendo en puerto 3000");
+});
