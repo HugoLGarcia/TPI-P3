@@ -10,7 +10,7 @@ import { getAllUsuarios, getUsuarioById, agregarUnUsuario,
      borrarUsuarioPorId, modificarUsuarioPorId,
       modificarCorreoUsuarioPorId, getUsuariosByApellido,
        estadoUsuarioById, cambiarEstadoUsuarioById, agregarUnUsuarioMedico,
-        agregarUnUsuarioPaciente } from '../db/consultas/usuarios_consultas.js';
+        agregarUnUsuarioPaciente, registrarUsuarioGenerico } from '../db/consultas/usuarios_consultas.js';
 
 const router = Router();
 
@@ -174,6 +174,19 @@ router.post('/usuarios/paciente', (req, res) => {
 //Mejorar respuestas
 router.post('/usuarios/medico', (req, res) => {
     agregarUnUsuarioMedico(req.body)
+        .then(result => {
+            // ⚠️ Aunque no funcione Bruno da 201
+            res.status(201).json(result);
+        })
+        .catch(err => {
+            console.error('Error de servidor al crear usuario:', err);
+            res.status(500).json({ error: 'Error de servidor al crear usuario' });
+        });
+});
+
+//Mejorar respuestas
+router.post('/usuarios/generico', (req, res) => {
+    registrarUsuarioGenerico(req.body)
         .then(result => {
             // ⚠️ Aunque no funcione Bruno da 201
             res.status(201).json(result);

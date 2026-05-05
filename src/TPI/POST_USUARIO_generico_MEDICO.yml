@@ -1,24 +1,24 @@
 info:
-  name: POST_USUARIO_MEDICO_call_procedim
+  name: POST_USUARIO_generico_MEDICO
   type: http
   seq: 12
 
 http:
   method: post
-  url: http://localhost:3000/usuarios/medico
+  url: http://localhost:3000/usuarios/generico
   body:
     type: json
     data: |-
       {
-        "documento": "91000114",
+        "documento": "91550114",
         "apellido": "Perez",
         "nombres": "Luis",
-        "email": "wgg2200ww@correo.com",
+        "email": "wgg22ww@correo.com",
         "contrasenia": "texto",
         "foto_path": "./foto2.img",
         "rol": 1,
         "especialidad" : 4,
-        "matricula" : 87550,
+        "matricula" : 7550,
         "descripcion" : "prueba",
         "valor_consulta" : 25000.5 
       }

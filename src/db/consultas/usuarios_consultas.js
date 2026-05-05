@@ -264,6 +264,134 @@ async function agregarUnUsuarioMedico(datos) {
   }
 }
 
+/*
+
+👁️👁️👁️👁️Transacción para crear un paciente a probar
+
+const registrarPaciente = async (datos) => {
+  const { documento, apellido, nombres, email, contrasenia, foto_path, id_obrasocial } = datos;
+
+  // El bloque de SQL que definimos antes
+  const sql = `
+    START TRANSACTION;
+
+    INSERT INTO usuarios (documento, apellido, nombres, email, contrasenia, foto_path, rol, activo)
+    VALUES (?, ?, ?, ?, ?, ?, 2, 1);
+
+    SET @v_id_usuario = LAST_INSERT_ID();
+
+    INSERT INTO pacientes (id_usuario, id_obra_social)
+    VALUES (@v_id_usuario, ?);
+
+    COMMIT;
+  `;
+
+  const params = [documento, apellido, nombres, email, contrasenia, foto_path, id_obrasocial];
+
+  try {
+    // Ejecutamos la transacción completa
+    // Nota: Usamos .promise() si usás mysql2, o el método que tu driver use para promesas
+    await db.query(sql, params);
+    
+    return { success: true, message: "Paciente registrado correctamente" };
+
+  } catch (error) {
+    // Si algo falló en cualquier punto del string SQL, venimos acá
+    console.error("Error detectado, revirtiendo cambios...");
+    
+    // Ejecutamos el ROLLBACK para asegurar la integridad
+    await db.query("ROLLBACK;");
+    
+    throw error; // Re-lanzamos el error para manejarlo en el controlador (res.status(500))
+  }
+};
+*/
+
+
+
+//👁️👁️👁️👁️Transacción para crear paciente o médico según rol a probar
+
+//👁️👁️👁️👁️Transacción para crear paciente o médico según rol a probar
+
+const registrarUsuarioGenerico = async (datos) => {
+  const { documento, apellido, nombres, email, contrasenia, foto_path, rol } = datos;
+
+  const connection = await pool.getConnection(); // Pedís una conexión fija del pool
+
+try {
+    await connection.beginTransaction(); // Iniciás transacción formal
+
+    // 1. Insertar Usuario
+    const [userResult] = await connection.query(
+        `INSERT INTO usuarios (documento, apellido, nombres, email, contrasenia, foto_path, rol, activo) 
+         VALUES (?, ?, ?, ?, ?, ?, ?, 1)`,
+        [documento, apellido, nombres, email, contrasenia, foto_path, rol]
+    );
+
+    const v_id_usuario = userResult.insertId; // Obtenés el ID directamente en JS
+
+    // 2. Insertar según Rol (Aquí el id_obra_social NO será NULL)
+    if (rol === 2) {
+        await connection.query(
+            `INSERT INTO pacientes (id_usuario, id_obra_social) VALUES (?, ?)`,
+            [v_id_usuario, datos.id_obra_social] // Pasamos el valor directo aquí
+        );
+    } else if (rol === 1) {
+        await connection.query(
+            `INSERT INTO medicos (id_usuario, id_especialidad, matricula, descripcion, valor_consulta) VALUES (?, ?, ?, ?, ?)`,
+            [v_id_usuario, datos.especialidad, datos.matricula, datos.descripcion, datos.valor_consulta]
+        );
+    }
+
+    await connection.commit(); // Si todo salió bien, confirmamos
+    console.log("Registro exitoso");
+
+} catch (error) {
+    await connection.rollback(); // Si algo falló, deshacemos TODO
+    console.error("Error, se hizo rollback:", error);
+    throw error;
+} finally {
+    connection.release(); // IMPORTANTE: Devolver la conexión al pool
+}
+  
+};
+
+const registrarUsuarioGenericoNoVa = async (datos) => {
+  const { documento, apellido, nombres, email, contrasenia, foto_path, rol } = datos;
+
+  // 1. Iniciamos la base de la query y los parámetros comunes
+  let sql = 'START TRANSACTION; ' +
+    'INSERT INTO usuarios (documento, apellido, nombres, email, contrasenia, foto_path, rol, activo) VALUES (?, ?, ?, ?, ?, ?, ?, 1); ' +
+    'SET @v_id_usuario = LAST_INSERT_ID(); ';
+
+  let params = [documento, apellido, nombres, email, contrasenia, foto_path, rol];
+
+  // 2. Agregamos lógica específica según el rol
+  if (rol === 1) { 
+    // Ejemplo Médico: requiere especialidad, matrícula, descripción y valor de consulta
+    sql += `INSERT INTO medicos (id_usuario, id_especialidad, matricula, descripcion, valor_consulta) VALUES (@v_id_usuario, ?, ?, ?, ?);`;
+    params.push(datos.especialidad, datos.matricula, datos.descripcion, datos.valor_consulta);
+    
+  } else if (rol === 2) {
+    // Ejemplo Paciente: requiere solo obra social
+    sql += `INSERT INTO pacientes (id_usuario, id_obra_social) VALUES (@v_id_usuario, ?);`;
+    params.push(datos.id_obra_social);
+  }
+
+  // 3. Cerramos la transacción
+  sql += ` COMMIT;`;
+
+  try {
+    await pool.query(sql, params);
+    return { success: true };
+  } catch (error) {
+    await pool.query("ROLLBACK;");
+    console.error("Error en transacción:", error.message);
+    throw error;
+  }
+};
+
+
 async function borrarUsuarioPorId(idUsuario) {
   //1️⃣ Comentada para usar pool
   //let conexion;
@@ -456,7 +584,7 @@ export { getAllUsuarios, getUsuarioById, getUsuariosByApellido,
    agregarUnUsuario, borrarUsuarioPorId, modificarUsuarioPorId,
     modificarCorreoUsuarioPorId, estadoUsuarioById,
     cambiarEstadoUsuarioById, agregarUnUsuarioPaciente, 
-    agregarUnUsuarioMedico };
+    agregarUnUsuarioMedico, registrarUsuarioGenerico };
 
 //getAllUsuarios();
 //getUsuarioById(1);
