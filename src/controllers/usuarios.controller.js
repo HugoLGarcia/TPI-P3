@@ -25,8 +25,21 @@ const getById = async (req, res) => {
   }
 };
 
-// Crear usuario
+// crear usuario
 const create = async (req, res) => {
+  try {
+    const result = await usuariosService.create(req.body);
+    res.status(201).json(result);
+  } catch (error) {
+    res.status(500).json({
+      error: "Error al crear usuario"
+    });
+  }
+};
+
+
+
+/* const create = async (req, res) => {
   try {
     const { documento, apellido, nombres, email, contrasenia, rol } = req.body;
 
@@ -43,7 +56,7 @@ const create = async (req, res) => {
       error: "Error al crear usuario"
     });
   }
-};
+}; */
 
 // Actualizar usuario
 const update = async (req, res) => {
