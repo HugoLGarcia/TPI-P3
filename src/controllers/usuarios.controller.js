@@ -23,14 +23,6 @@ const getById = async (req, res) => {
 
 const create = async (req, res) => {
   try {
-    const { documento, apellido, nombres, email, contrasenia, rol } = req.body;
-
-    if (!documento || !apellido || !nombres || !email || !contrasenia || !rol) {
-      return res.status(400).json({
-        error: "Faltan campos obligatorios"
-      });
-    }
-
     const result = await usuariosService.create(req.body);
     res.status(201).json(result);
 
