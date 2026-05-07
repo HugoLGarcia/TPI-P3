@@ -7,10 +7,10 @@ const router = Router();
 
 // BREAD
 
-// ✅ GET ALL
+// Get All
 router.get("/", usuariosController.getAll);
 
-// ✅ GET BY ID con validación
+// GET BY ID con validación
 router.get(
   "/:id",
   [
@@ -20,7 +20,7 @@ router.get(
   usuariosController.getById
 );
 
-// ✅ CREATE
+// Create
 router.post(
   "/",
   [
@@ -37,7 +37,7 @@ router.post(
   usuariosController.create
 );
 
-// ✅ UPDATE
+// Update
 router.put(
   "/:id",
   [
@@ -52,7 +52,7 @@ router.put(
   usuariosController.update
 );
 
-// ✅ DELETE
+// Delete
 router.delete(
   "/:id",
   [

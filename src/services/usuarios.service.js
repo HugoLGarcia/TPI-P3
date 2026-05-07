@@ -21,7 +21,7 @@ const create = async (data) => {
 
 // E - Actualizar usuario
 const update = async (id, data) => {
-  
+
   if (data.contrasenia) {
     const hash = crypto
       .createHash("sha256")
