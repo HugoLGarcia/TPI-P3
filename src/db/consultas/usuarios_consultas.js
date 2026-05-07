@@ -1,3 +1,7 @@
+//⚠️⚠️⚠️⚠️⚠️
+//Este archivo ya no se usa
+//⚠️⚠️⚠️⚠️⚠️
+
 //Ver lo de result.affectedRaws > 0 para mensajes de éxito o error en borrado y modificación
 //Mensaje result.insertedId
 
@@ -37,8 +41,8 @@
 //Uso dotenv para levantar el archivo de configuración .env
 //⚠️ Creo que deberíamos utilizar el método nativo "process.loadEnvFile();"
 // que es el que utilizan Cristian (Pero no Ignacio)
-import dotenv from 'dotenv';
-dotenv.config();
+//import dotenv from 'dotenv';
+//dotenv.config();
 
 //Uso mysql2/promise para conectarme a MySQL usando promises
 import mysql from 'mysql2/promise';

@@ -10,14 +10,14 @@ http:
     type: json
     data: |-
       {
-        "documento": "977114",
+        "documento": "97914",
         "apellido": "Perez",
         "nombres": "Luis",
-        "email": "wgg2552ww@correo.com",
+        "email": "wg22577522ww@correo.com",
         "contrasenia": "texto",
         "foto_path": "./foto2.img",
         "rol": 2,
-        "id_obra_social": 4
+        "id_obra_social": 15
       }
 
 settings:

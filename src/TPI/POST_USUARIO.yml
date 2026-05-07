@@ -10,14 +10,13 @@ http:
     type: json
     data: |-
       {
-        "documento": "91000114",
+        "documento": "14002",
         "apellido": "Perez",
         "nombres": "Luis",
-        "email": "wggww@correo.com",
+        "email": "0g0l269w22w@correo.com",
         "contrasenia": "texto",
         "foto_path": "",
-        "rol": 1,
-        "activo": 1
+        "rol": 1
       }
   auth: inherit
 
