@@ -1,6 +1,6 @@
 import { pool } from "../db/connection/connection.js";
 
-// B
+// Obtener todos los usuarios activos
 const getAll = async () => {
   const [rows] = await pool.query(
     "SELECT * FROM usuarios WHERE activo = 1"
@@ -8,7 +8,7 @@ const getAll = async () => {
   return rows;
 };
 
-// R
+// Obtener usuario por ID (solo activos)
 const getById = async (id) => {
   const [rows] = await pool.query(
     "SELECT * FROM usuarios WHERE id_usuario = ? AND activo = 1",
@@ -17,7 +17,7 @@ const getById = async (id) => {
   return rows[0];
 };
 
-// A
+// Crear usuario
 const create = async (data) => {
   const { documento, apellido, nombres, email, contrasenia, rol } = data;
 
@@ -31,7 +31,7 @@ const create = async (data) => {
   return { id: result.insertId };
 };
 
-// E
+// Actualizar usuario (solo si está activo)
 const update = async (id, data) => {
   const campos = [];
   const valores = [];
@@ -62,28 +62,52 @@ const update = async (id, data) => {
 
   valores.push(id);
 
-  await pool.query(
-    `UPDATE usuarios SET ${campos.join(", ")} WHERE id_usuario = ?`,
+  const [result] = await pool.query(
+    `UPDATE usuarios 
+     SET ${campos.join(", ")} 
+     WHERE id_usuario = ? AND activo = 1`,
     valores
   );
+
+  if (result.affectedRows === 0) {
+    throw new Error("Usuario no encontrado o inactivo");
+  }
 
   return { message: "Usuario actualizado" };
 };
 
-// D (SOFT DELETE)
+// Eliminar usuario (soft delete)
 const softDelete = async (id) => {
-  await pool.query(
-    "UPDATE usuarios SET activo = 0 WHERE id_usuario = ?",
+  const [result] = await pool.query(
+    "UPDATE usuarios SET activo = 0 WHERE id_usuario = ? AND activo = 1",
     [id]
   );
 
-  return { message: "Usuario eliminado (soft delete)" };
+  if (result.affectedRows === 0) {
+    throw new Error("Usuario no encontrado o ya eliminado");
+  }
+
+  return { message: "Usuario eliminado" };
 };
+
+// Buscar usuarios activos por apellido o nombre
+const search = async (texto) => {
+  const [rows] = await pool.query(
+    `SELECT * FROM usuarios 
+     WHERE activo = 1 
+     AND (apellido LIKE ? OR nombres LIKE ?)`,
+    [`%${texto}%`, `%${texto}%`]
+  );
+
+  return rows;
+};
+
 
 export default {
   getAll,
   getById,
   create,
   update,
-  softDelete
+  softDelete,
+  search
 };
