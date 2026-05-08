@@ -1,5 +1,5 @@
 {
-  "name": "codicvalentina",
+  "name": "tpi-p3",
   "version": "1.0.0",
   "description": "Trabajo final integrador para la materia Programación 3",
   "main": "index.js",
@@ -15,6 +15,7 @@
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "helmet": "^8.1.0",
-    "mysql2": "^3.22.3"
+    "mysql2": "^3.22.3",
+    "express-validator": "^7.3.2"
   }
 }
