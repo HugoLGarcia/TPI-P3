@@ -5,6 +5,7 @@ const app = express();
 
 app.use(express.json());
 
+app.use("/usuarios", usuariosRoutes);
 // rutas versionadas
 app.use("/api/v1/usuarios", usuariosRoutes);
 

@@ -127,11 +127,61 @@ const search = async (req, res) => {
   }
 };
 
+
+// Modificar estado de usuario por ID
+const changeStateId = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const resultado = await serviciosUsuarios.modificarEstadoUsuarioId(id);
+        if (resultado.error) {
+            res.status(400).json(resultado);
+        } else {
+            res.status(201).json(resultado);
+        }
+    } catch (error) {
+        res.status(500).json({ error: "Error de servidor al modificar estado de usuario" });
+    } 
+};
+
+// Modificar correo de usuario por ID
+const changeEmailId = async (req, res) => {
+    const { id } = req.params;
+    const { email } = req.body;
+    try {
+        const usuario = await serviciosUsuarios.modificarCorreoUsuario(id, email);
+        if (usuario) {
+            res.json(usuario);
+        } else {
+            res.status(404).json({ error: "Usuario no encontrado" });
+        }
+    } catch (error) {
+        res.status(500).json({ error: "Error de servidor al modificar correo de usuario" });
+    }
+};
+
+// Registra usuario genérico, médico o paciente, dependiendo de los datos enviados
+const registerGeneric = async (req, res) => {
+    const datos = req.body;
+    try {
+        const resultado = await serviciosUsuarios.registrarUsuarioGenerico(datos);
+        if (resultado.error) {
+            res.status(400).json(resultado);
+        } else {
+            res.status(201).json(resultado);
+        }
+    } catch (error) {
+        res.status(500).json({ error: "Error de servidor al registrar usuario genérico" });
+    } 
+};
+
 export default {
   getAll,
   getById,
   create,
   update,
   remove,
-  search
+  search,
+  changeStateId,
+  changeEmailId,
+  registerGeneric
 };

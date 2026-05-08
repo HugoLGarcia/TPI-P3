@@ -40,11 +40,23 @@ const remove = (id) => usuariosRepository.softDelete(id);
 // Buscar usuarios por apellido o nombre
 const search = (texto) => usuariosRepository.search(texto);
 
+// Cambiar estado de usuario por ID
+const changeStateId = (id) => usuariosRepository.changeStateId(id);
+
+// Cambiar correo de usuario por ID
+const changeEmailId = (id, email) => usuariosRepository.changeEmailId(id, email);
+
+// Registrar usuario genérico (médico o paciente, dependiendo de los datos enviados)
+const registerGeneric = (datos) => usuariosRepository.registerGeneric(datos);
+
 export default {
   getAll,
   getById,
   create,
   update,
   remove,
-  search
+  search,
+  changeStateId,
+  changeEmailId,
+  registerGeneric
 };
