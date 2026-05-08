@@ -4,9 +4,17 @@ import usuariosService from "../services/usuarios.service.js";
 const getAll = async (req, res) => {
   try {
     const data = await usuariosService.getAll();
-    res.json(data);
+
+    res.status(200).json({
+      estado: true,
+      usuarios: data
+    });
+
   } catch (error) {
-    res.status(500).json({ error: "Error al obtener usuarios" });
+    res.status(500).json({
+      estado: false,
+      mensaje: "Error al obtener usuarios"
+    });
   }
 };
 
@@ -16,31 +24,42 @@ const getById = async (req, res) => {
     const data = await usuariosService.getById(req.params.id);
 
     if (!data) {
-      return res.status(404).json({ error: "Usuario no encontrado" });
+      return res.status(404).json({
+        estado: false,
+        mensaje: "Usuario no encontrado"
+      });
     }
 
-    res.json(data);
+    res.status(200).json({
+      estado: true,
+      usuario: data
+    });
+
   } catch (error) {
-    res.status(500).json({ error: "Error al obtener usuario" });
+    res.status(500).json({
+      estado: false,
+      mensaje: "Error al obtener usuario"
+    });
   }
 };
 
 // Crear usuario
 const create = async (req, res) => {
   try {
-    const { documento, apellido, nombres, email, contrasenia, rol } = req.body;
-
-    if (!documento || !apellido || !nombres || !email || !contrasenia || !rol) {
-      return res.status(400).json({
-        error: "Faltan campos obligatorios"
-      });
-    }
-
     const result = await usuariosService.create(req.body);
-    res.status(201).json(result);
+
+    res.status(201).json({
+      estado: true,
+      mensaje: "Usuario creado",
+      data: result
+    });
+
   } catch (error) {
+    console.error(error);
+
     res.status(500).json({
-      error: "Error al crear usuario"
+      estado: false,
+      mensaje: "Error al crear usuario"
     });
   }
 };
@@ -49,17 +68,26 @@ const create = async (req, res) => {
 const update = async (req, res) => {
   try {
     if (Object.keys(req.body).length === 0) {
-      return res.status(400).json({ error: "No hay campos para actualizar" });
+      return res.status(400).json({
+        estado: false,
+        mensaje: "No hay campos para actualizar"
+      });
     }
 
     const result = await usuariosService.update(req.params.id, req.body);
-    res.json(result);
-  } catch (error) {
-    if (error.message === "Usuario no encontrado o inactivo") {
-      return res.status(404).json({ error: error.message });
-    }
 
-    res.status(500).json({ error: "Error al actualizar usuario" });
+    res.status(200).json({
+      estado: true,
+      data: result
+    });
+
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      estado: false,
+      mensaje: "Error al actualizar usuario"
+    });
   }
 };
 
@@ -67,13 +95,17 @@ const update = async (req, res) => {
 const remove = async (req, res) => {
   try {
     const result = await usuariosService.remove(req.params.id);
-    res.json(result);
-  } catch (error) {
-    if (error.message === "Usuario no encontrado o ya eliminado") {
-      return res.status(404).json({ error: error.message });
-    }
 
-    res.status(500).json({ error: "Error al eliminar usuario" });
+    res.status(200).json({
+      estado: true,
+      data: result
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      estado: false,
+      mensaje: "Error al eliminar usuario"
+    });
   }
 };
 
