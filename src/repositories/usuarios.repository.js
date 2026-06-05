@@ -22,7 +22,7 @@ const create = async (data) => {
   const { documento, apellido, nombres, email, contrasenia, rol } = data;
 
   const [result] = await pool.query(
-    `INSERT INTO usuarios 
+    `INSERT INTO usuarios
     (documento, apellido, nombres, email, contrasenia, rol, activo)
     VALUES (?, ?, ?, ?, ?, ?, 1)`,
     [documento, apellido, nombres, email, contrasenia, rol]
@@ -63,8 +63,8 @@ const update = async (id, data) => {
   valores.push(id);
 
   const [result] = await pool.query(
-    `UPDATE usuarios 
-     SET ${campos.join(", ")} 
+    `UPDATE usuarios
+     SET ${campos.join(", ")}
      WHERE id_usuario = ? AND activo = 1`,
     valores
   );
@@ -93,8 +93,8 @@ const softDelete = async (id) => {
 // Buscar usuarios activos por apellido o nombre
 const search = async (texto) => {
   const [rows] = await pool.query(
-    `SELECT * FROM usuarios 
-     WHERE activo = 1 
+    `SELECT * FROM usuarios
+     WHERE activo = 1
      AND (apellido LIKE ? OR nombres LIKE ?)`,
     [`%${texto}%`, `%${texto}%`]
   );
@@ -102,6 +102,23 @@ const search = async (texto) => {
   return rows;
 };
 
+// Buscar usuario para login
+const buscar = async (email, contrasenia) => {
+  const [rows] = await pool.query(
+    `SELECT
+        id_usuario,
+        apellido,
+        nombres,
+        rol
+     FROM usuarios
+     WHERE email = ?
+     AND contrasenia = ?
+     AND activo = 1`,
+    [email, contrasenia]
+  );
+
+  return rows[0];
+};
 
 export default {
   getAll,
@@ -109,5 +126,6 @@ export default {
   create,
   update,
   softDelete,
-  search
+  search,
+  buscar
 };

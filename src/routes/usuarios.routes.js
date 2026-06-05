@@ -2,17 +2,28 @@ import { Router } from "express";
 import { body, param } from "express-validator";
 import { validarCampos } from "../middlewares/validarCampos.js";
 import usuariosController from "../controllers/usuarios.controller.js";
+import passport from "passport";
+import autorizarUsuarios from "../middlewares/autorizarUsuarios.js";
+import autenticarJWT from "../middlewares/autenticarJWT.js";
 
 const router = Router();
 
 // BREAD
 
 // Get All
-router.get("/", usuariosController.getAll);
+router.get(
+  "/",
+  autenticarJWT,
+  passport.authenticate("jwt", { session: false }),
+  autorizarUsuarios([3]),
+  usuariosController.getAll
+);
 
 // GET BY ID con validación
 router.get(
   "/:id",
+  passport.authenticate("jwt", { session: false }),
+  autorizarUsuarios([3]),
   [
     param("id").isInt().withMessage("El ID debe ser numérico"),
     validarCampos
