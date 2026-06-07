@@ -1,0 +1,28 @@
+info:
+  name: V1_PUT_OBRASSOCIALES_ID
+  type: http
+  seq: 20
+
+http:
+  method: PUT
+  url: http://localhost:3000/api/v1/obrassociales/:id
+  params:
+    - name: id
+      value: "5"
+      type: path
+  body:
+    type: json
+    data: |-
+      {
+        "nombre": "Obra Total",
+        "descuento": 20.00
+      }
+  auth:
+    type: bearer
+    token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF91c3VhcmlvIjo4LCJhcGVsbGlkbyI6IkZlcm5hbmRleiIsIm5vbWJyZXMiOiJCZW5pdG8iLCJyb2wiOjMsImlhdCI6MTc4MDg2OTUxOSwiZXhwIjoxNzgwODczMTE5fQ.EnyVzBBtCU3b0aqDh8QxIfYpAVRA0IXMbYNyJKww0XY
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

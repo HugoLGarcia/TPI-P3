@@ -8,7 +8,7 @@ http:
   url: http://localhost:3000/api/v1/usuarios/
   auth:
     type: bearer
-    token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF91c3VhcmlvIjo4LCJhcGVsbGlkbyI6IkZlcm5hbmRleiIsIm5vbWJyZXMiOiJCZW5pdG8iLCJyb2wiOjMsImlhdCI6MTc4MDg1OTQxNiwiZXhwIjoxNzgwODYzMDE2fQ.ikW--pPdNZymBq573_O1FZ2_K-DFSkGBUK9YR18JJ1M
+    token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF91c3VhcmlvIjoxLCJhcGVsbGlkbyI6IkxvcGV6Iiwibm9tYnJlcyI6Ik1hcmNlbG8iLCJyb2wiOjEsImlhdCI6MTc4MDg2Mjg4NywiZXhwIjoxNzgwODY2NDg3fQ.JYmaNMGX44Lv2nIsz8HVPwOiZ547i60RbNZPoI5zERA
 
 settings:
   encodeUrl: true

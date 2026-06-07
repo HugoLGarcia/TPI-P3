@@ -1,0 +1,25 @@
+info:
+  name: V1_POST_OBRASSOCIALES
+  type: http
+  seq: 19
+
+http:
+  method: POST
+  url: http://localhost:3000/api/v1/obrassociales
+  body:
+    type: json
+    data: |-
+      {
+        "nombre": "Obra",
+        "descripcion": "obr",
+        "descuento": 40.00
+      }
+  auth:
+    type: bearer
+    token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF91c3VhcmlvIjo4LCJhcGVsbGlkbyI6IkZlcm5hbmRleiIsIm5vbWJyZXMiOiJCZW5pdG8iLCJyb2wiOjMsImlhdCI6MTc4MDg2OTUxOSwiZXhwIjoxNzgwODczMTE5fQ.EnyVzBBtCU3b0aqDh8QxIfYpAVRA0IXMbYNyJKww0XY
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

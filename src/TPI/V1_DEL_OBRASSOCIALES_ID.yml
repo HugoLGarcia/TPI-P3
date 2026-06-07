@@ -1,0 +1,21 @@
+info:
+  name: V1_DEL_OBRASSOCIALES_ID
+  type: http
+  seq: 21
+
+http:
+  method: DELETE
+  url: http://localhost:3000/api/v1/obrassociales/:id
+  params:
+    - name: id
+      value: "5"
+      type: path
+  auth:
+    type: bearer
+    token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF91c3VhcmlvIjo4LCJhcGVsbGlkbyI6IkZlcm5hbmRleiIsIm5vbWJyZXMiOiJCZW5pdG8iLCJyb2wiOjMsImlhdCI6MTc4MDg2OTUxOSwiZXhwIjoxNzgwODczMTE5fQ.EnyVzBBtCU3b0aqDh8QxIfYpAVRA0IXMbYNyJKww0XY
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
