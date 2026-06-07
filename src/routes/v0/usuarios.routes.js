@@ -13,7 +13,7 @@ router.get("/:id", usuariosController.getById);
 router.post("/", usuariosController.create);
 router.put("/:id", usuariosController.update);
 router.delete("/:id", usuariosController.remove);
-router.delete("/estado/:id", usuariosController.changeStateId);
+router.patch("/estado/:id", usuariosController.changeStateId);
 router.patch("/correo/:id", validarCorreo, usuariosController.changeEmailId);
 router.post("/generico", usuariosController.registerGeneric);
 

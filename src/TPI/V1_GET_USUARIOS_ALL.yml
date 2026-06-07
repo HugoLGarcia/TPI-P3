@@ -1,0 +1,17 @@
+info:
+  name: V1_GET_USUARIOS_ALL
+  type: http
+  seq: 1
+
+http:
+  method: GET
+  url: http://localhost:3000/api/v1/usuarios/
+  auth:
+    type: bearer
+    token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF91c3VhcmlvIjo4LCJhcGVsbGlkbyI6IkZlcm5hbmRleiIsIm5vbWJyZXMiOiJCZW5pdG8iLCJyb2wiOjMsImlhdCI6MTc4MDg1OTQxNiwiZXhwIjoxNzgwODYzMDE2fQ.ikW--pPdNZymBq573_O1FZ2_K-DFSkGBUK9YR18JJ1M
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

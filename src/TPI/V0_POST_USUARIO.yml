@@ -1,23 +1,23 @@
 info:
-  name: POST_USUARIO_GENERICO
+  name: V0_POST_USUARIO
   type: http
   seq: 1
 
 http:
   method: POST
-  url: http://localhost:3000/usuarios/generico
+  url: http://localhost:3000/api/v0/usuarios
   body:
     type: json
     data: |-
       {
-        "documento": "91000114",
-        "apellido": "Perez",
-        "nombres": "Luis",
-        "email": "wggww@correo.com",
+        "documento": "91114",
+        "apellido": "Perez1",
+        "nombres": "Luis1",
+        "email": "wggww1@correo.com",
         "contrasenia": "texto",
         "foto_path": "",
         "rol": 1,
-        "obra_social": 4
+        "activo": 1
       }
   auth: inherit
 

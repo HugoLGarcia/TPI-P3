@@ -1,5 +1,5 @@
 info:
-  name: V1_LOGIN
+  name: V1_POST_LOGIN
   type: http
   seq: 1
 
@@ -10,8 +10,8 @@ http:
     type: json
     data: |-
       {
-        "email": "lopmar@correo.com",
-        "contrasenia": "lopmar"
+        "email": "ferben@correo.com",
+        "contrasenia": "ferben"
       }
   auth: inherit
 

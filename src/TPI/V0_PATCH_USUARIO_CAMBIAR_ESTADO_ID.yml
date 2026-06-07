@@ -1,6 +1,7 @@
 info:
-  name: PATCH_USUARIO_CAMBIAR_ESTADO_ID
+  name: V0_PATCH_USUARIO_CAMBIAR_ESTADO_ID
   type: http
+  seq: 1
 
 http:
   method: PATCH

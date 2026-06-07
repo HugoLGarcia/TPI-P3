@@ -50,9 +50,7 @@ export default {
   update,
   remove,
   search,
-
   changeStateId,
   changeEmailId,
   registerGeneric,
-
 };

@@ -1,14 +1,18 @@
 info:
-  name: V1_USUARIOS_ALL
+  name: V1_GET_USUARIO_ID
   type: http
   seq: 1
 
 http:
   method: GET
-  url: http://localhost:3000/api/v1/usuarios/
+  url: http://localhost:3000/api/v1/usuarios/:id
+  params:
+    - name: id
+      value: "3"
+      type: path
   auth:
     type: bearer
-    token: "{{jwt_token}}"
+    token: "{{token}}"
 
 settings:
   encodeUrl: true

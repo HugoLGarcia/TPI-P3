@@ -1,10 +1,10 @@
 info:
-  name: PATCH_USUARIO_CORREO_ID
+  name: V0_PUT_USUARIO_ID
   type: http
   seq: 1
 
 http:
-  method: PATCH
+  method: PUT
   url: http://localhost:3000/usuarios/:id
   params:
     - name: id
@@ -14,7 +14,14 @@ http:
     type: json
     data: |-
       {
-        "email" : "otronuevo@correo.com"
+        "documento": "000114",
+        "apellido": "Perez",
+        "nombres": "Luis",
+        "email": "w@correo.com",
+        "contrasenia": "texto",
+        "foto_path": "",
+        "rol": 1,
+        "activo": 1
       }
   auth: inherit
 

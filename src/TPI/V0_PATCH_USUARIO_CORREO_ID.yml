@@ -1,15 +1,21 @@
 info:
-  name: DEL_USUARIO_ID
+  name: V0_PATCH_USUARIO_CORREO_ID
   type: http
   seq: 1
 
 http:
-  method: DELETE
+  method: PATCH
   url: http://localhost:3000/usuarios/:id
   params:
     - name: id
-      value: "27"
+      value: "17"
       type: path
+  body:
+    type: json
+    data: |-
+      {
+        "email" : "otronuevo@correo.com"
+      }
   auth: inherit
 
 settings:

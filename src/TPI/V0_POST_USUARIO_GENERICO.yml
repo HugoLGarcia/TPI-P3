@@ -1,26 +1,23 @@
 info:
-  name: PUT_USUARIO_ID
+  name: V0_POST_USUARIO_GENERICO
   type: http
+  seq: 1
 
 http:
-  method: PUT
-  url: http://localhost:3000/usuarios/:id
-  params:
-    - name: id
-      value: "17"
-      type: path
+  method: POST
+  url: http://localhost:3000/usuarios/generico
   body:
     type: json
     data: |-
       {
-        "documento": "000114",
+        "documento": "91000114",
         "apellido": "Perez",
         "nombres": "Luis",
-        "email": "w@correo.com",
+        "email": "wggww@correo.com",
         "contrasenia": "texto",
         "foto_path": "",
         "rol": 1,
-        "activo": 1
+        "obra_social": 4
       }
   auth: inherit
 
