@@ -1,11 +1,13 @@
 import express from "express";
-import usuariosRoutes from "./routes/usuarios.routes.js";
+import usuariosRoutes from "./routes/v0/usuarios.routes.js";
 
 const app = express();
 
 app.use(express.json());
 
-app.use("/usuarios", usuariosRoutes);
+// rutas versionadas
+
+app.use("/api/v0/usuarios", usuariosRoutes);
 
 
 app.listen(3000, () => {

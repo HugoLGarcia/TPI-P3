@@ -1,4 +1,4 @@
-import usuariosRepository from "../repositories/usuarios.repository.js";
+import usuariosRepository from "../../repositories/v0/usuarios.repository.js";
 import crypto from "crypto";
 
 // Obtener todos los usuarios activos

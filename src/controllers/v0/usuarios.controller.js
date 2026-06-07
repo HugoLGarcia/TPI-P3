@@ -1,4 +1,4 @@
-import usuariosService from "../services/usuarios.service.js";
+import usuariosService from "../../services/v0/usuarios.service.js";
 
 // Obtener todos los usuarios
 const getAll = async (req, res) => {

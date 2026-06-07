@@ -1,4 +1,4 @@
-import { pool } from "../db/connection/connection.js";
+import { pool } from "../../db/connection/connection.js";
 
 // Obtener todos los usuarios activos
 const getAll = async () => {
