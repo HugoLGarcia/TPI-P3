@@ -57,9 +57,16 @@ const create = async (req, res) => {
   } catch (error) {
     console.error(error);
 
+    if (error.code === "ER_DUP_ENTRY") {
+      return res.status(400).json({
+        estado: false,
+        mensaje: "Ya existe un usuario con ese documento o email"
+      });
+    }
+
     res.status(500).json({
       estado: false,
-      mensaje: "Error al crear usuario"
+      mensaje: error.message
     });
   }
 };
@@ -67,6 +74,7 @@ const create = async (req, res) => {
 // Actualizar usuario
 const update = async (req, res) => {
   try {
+
     if (Object.keys(req.body).length === 0) {
       return res.status(400).json({
         estado: false,
@@ -82,11 +90,19 @@ const update = async (req, res) => {
     });
 
   } catch (error) {
+
     console.error(error);
+
+    if (error.message === "Usuario no encontrado o inactivo") {
+      return res.status(404).json({
+        estado: false,
+        mensaje: error.message
+      });
+    }
 
     res.status(500).json({
       estado: false,
-      mensaje: "Error al actualizar usuario"
+      mensaje: error.message
     });
   }
 };
@@ -94,6 +110,7 @@ const update = async (req, res) => {
 // Eliminar usuario
 const remove = async (req, res) => {
   try {
+
     const result = await usuariosService.remove(req.params.id);
 
     res.status(200).json({
@@ -102,9 +119,19 @@ const remove = async (req, res) => {
     });
 
   } catch (error) {
+
+    console.error(error);
+
+    if (error.message === "Usuario no encontrado o ya eliminado") {
+      return res.status(404).json({
+        estado: false,
+        mensaje: error.message
+      });
+    }
+
     res.status(500).json({
       estado: false,
-      mensaje: "Error al eliminar usuario"
+      mensaje: error.message
     });
   }
 };
