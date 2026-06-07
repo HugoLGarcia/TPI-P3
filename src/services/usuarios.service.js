@@ -40,11 +40,22 @@ const remove = (id) => usuariosRepository.softDelete(id);
 // Buscar usuarios por apellido o nombre
 const search = (texto) => usuariosRepository.search(texto);
 
+const buscar = async (email, contrasenia) => {
+
+  const hash = crypto
+    .createHash("sha256")
+    .update(contrasenia)
+    .digest("hex");
+
+  return usuariosRepository.buscar(email, hash);
+};
+
 export default {
   getAll,
   getById,
   create,
   update,
   remove,
-  search
+  search,
+  buscar
 };

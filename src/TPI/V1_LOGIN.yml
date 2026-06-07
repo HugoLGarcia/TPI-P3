@@ -1,0 +1,32 @@
+info:
+  name: V1_LOGIN
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: http://localhost:3000/api/v1/auth/login
+  body:
+    type: json
+    data: |-
+      {
+        "email": "lopmar@correo.com",
+        "contrasenia": "lopmar"
+      }
+  auth: inherit
+
+runtime:
+  scripts:
+    - type: after-response
+      code: |-
+        const data = res.getBody();
+
+        const token = data.token; 
+
+        bru.setVar("token", token);
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

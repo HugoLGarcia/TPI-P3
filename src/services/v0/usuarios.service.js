@@ -43,17 +43,6 @@ const changeEmailId = (id, email) => usuariosRepository.changeEmailId(id, email)
 // Registrar usuario genérico (médico o paciente, dependiendo de los datos enviados)
 const registerGeneric = (datos) => usuariosRepository.registerGeneric(datos);
 
-const buscar = async (email, contrasenia) => {
-
-  const hash = crypto
-    .createHash("sha256")
-    .update(contrasenia)
-    .digest("hex");
-
-  return usuariosRepository.buscar(email, hash);
-};
-
-
 export default {
   getAll,
   getById,
@@ -66,5 +55,4 @@ export default {
   changeEmailId,
   registerGeneric,
 
-  buscar
 };

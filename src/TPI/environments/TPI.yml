@@ -1,1 +1,4 @@
 name: TPI
+variables:
+  - secret: true
+    name: token

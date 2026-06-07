@@ -1,11 +1,11 @@
 info:
-  name: GET_USUARIO_ID
+  name: V0_USUARIO_ID
   type: http
   seq: 1
 
 http:
   method: GET
-  url: http://localhost:3000/usuarios/:id
+  url: http://localhost:3000/api/v0/usuarios/:id
   params:
     - name: id
       value: "3"

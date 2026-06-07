@@ -1,6 +1,6 @@
 import express from "express";
 
-import usuariosRoutes from "./routes/v0/usuarios.routes.js";
+import usuariosRoutesv0 from "./routes/v0/usuarios.routes.js";
 import passport from "passport";
 
 import usuariosRoutes from "./routes/usuarios.routes.js";
@@ -20,7 +20,9 @@ passport.use("jwt", validacion);
 app.use(passport.initialize());
 
 // rutas versionadas
-app.use("/api/v0/usuarios", usuariosRoutes);
+app.use("/api/v0/usuarios", usuariosRoutesv0);
+app.use("/api/v0/auth", authRoutes);
+
 
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/usuarios", usuariosRoutes);

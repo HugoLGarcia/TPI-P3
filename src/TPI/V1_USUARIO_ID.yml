@@ -1,11 +1,15 @@
 info:
-  name: GET_USUARIOS_ALL
+  name: V1_USUARIO_ID
   type: http
   seq: 1
 
 http:
   method: GET
-  url: http://localhost:3000/usuarios/
+  url: http://localhost:3000/api/v1/usuarios/:id
+  params:
+    - name: id
+      value: "3"
+      type: path
   auth: inherit
 
 settings:
