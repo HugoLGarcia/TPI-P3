@@ -132,7 +132,7 @@ const search = async (req, res) => {
 const changeStateId = async (req, res) => {
     const { id } = req.params;
     try {
-        const resultado = await serviciosUsuarios.modificarEstadoUsuarioId(id);
+        const resultado = await usuariosService.changeStateId(id);
         if (resultado.error) {
             res.status(400).json(resultado);
         } else {
@@ -148,7 +148,7 @@ const changeEmailId = async (req, res) => {
     const { id } = req.params;
     const { email } = req.body;
     try {
-        const usuario = await serviciosUsuarios.modificarCorreoUsuario(id, email);
+        const usuario = await usuariosService.changeEmailId(id, email);
         if (usuario) {
             res.json(usuario);
         } else {
@@ -163,14 +163,14 @@ const changeEmailId = async (req, res) => {
 const registerGeneric = async (req, res) => {
     const datos = req.body;
     try {
-        const resultado = await serviciosUsuarios.registrarUsuarioGenerico(datos);
+        const resultado = await usuariosService.registerGeneric(datos);
         if (resultado.error) {
             res.status(400).json(resultado);
         } else {
             res.status(201).json(resultado);
         }
     } catch (error) {
-        res.status(500).json({ error: "Error de servidor al registrar usuario genérico" });
+        res.status(500).json({ error: "Error de servidor al registrar usuario genérico", sqlMessage: error.sqlMessage });
     } 
 };
 

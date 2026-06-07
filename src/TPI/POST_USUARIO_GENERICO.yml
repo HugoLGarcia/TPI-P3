@@ -1,0 +1,28 @@
+info:
+  name: POST_USUARIO_GENERICO
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: http://localhost:3000/usuarios/generico
+  body:
+    type: json
+    data: |-
+      {
+        "documento": "91000114",
+        "apellido": "Perez",
+        "nombres": "Luis",
+        "email": "wggww@correo.com",
+        "contrasenia": "texto",
+        "foto_path": "",
+        "rol": 1,
+        "obra_social": 4
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
