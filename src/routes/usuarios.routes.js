@@ -2,38 +2,33 @@ import { Router } from "express";
 import { body, param } from "express-validator";
 import { validarCampos } from "../middlewares/validarCampos.js";
 import usuariosController from "../controllers/usuarios.controller.js";
-import passport from "passport";
 import autorizarUsuarios from "../middlewares/autorizarUsuarios.js";
 import autenticarJWT from "../middlewares/autenticarJWT.js";
 
 const router = Router();
 
-// BREAD
-
-// Get All
+// Get All - solo administrador
 router.get(
   "/",
   autenticarJWT,
-  passport.authenticate("jwt", { session: false }),
   autorizarUsuarios([3]),
-  usuariosController.getAll
+  usuariosController.getAll,
 );
 
-// GET BY ID con validación
+// Get By ID - solo administrador
 router.get(
   "/:id",
-  passport.authenticate("jwt", { session: false }),
+  autenticarJWT,
   autorizarUsuarios([3]),
-  [
-    param("id").isInt().withMessage("El ID debe ser numérico"),
-    validarCampos
-  ],
-  usuariosController.getById
+  [param("id").isInt().withMessage("El ID debe ser numérico"), validarCampos],
+  usuariosController.getById,
 );
 
-// Create
+// Create - solo administrador
 router.post(
   "/",
+  autenticarJWT,
+  autorizarUsuarios([3]),
   [
     body("documento").notEmpty().withMessage("Documento obligatorio"),
     body("apellido").notEmpty().withMessage("Apellido obligatorio"),
@@ -43,14 +38,16 @@ router.post(
       .isLength({ min: 6 })
       .withMessage("La contraseña debe tener al menos 6 caracteres"),
     body("rol").notEmpty().withMessage("Rol obligatorio"),
-    validarCampos
+    validarCampos,
   ],
-  usuariosController.create
+  usuariosController.create,
 );
 
-// Update
+// Update - solo administrador
 router.put(
   "/:id",
+  autenticarJWT,
+  autorizarUsuarios([3]),
   [
     param("id").isInt().withMessage("El ID debe ser numérico"),
     body("email").optional().isEmail().withMessage("Email inválido"),
@@ -58,19 +55,18 @@ router.put(
       .optional()
       .isLength({ min: 6 })
       .withMessage("Mínimo 6 caracteres"),
-    validarCampos
+    validarCampos,
   ],
-  usuariosController.update
+  usuariosController.update,
 );
 
-// Delete
+// Delete - solo administrador
 router.delete(
   "/:id",
-  [
-    param("id").isInt().withMessage("El ID debe ser numérico"),
-    validarCampos
-  ],
-  usuariosController.remove
+  autenticarJWT,
+  autorizarUsuarios([3]),
+  [param("id").isInt().withMessage("El ID debe ser numérico"), validarCampos],
+  usuariosController.remove,
 );
 
 export default router;
