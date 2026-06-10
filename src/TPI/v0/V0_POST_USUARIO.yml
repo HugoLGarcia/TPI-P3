@@ -10,10 +10,10 @@ http:
     type: json
     data: |-
       {
-        "documento": "91114",
+        "documento": "911104",
         "apellido": "Perez1",
         "nombres": "Luis1",
-        "email": "wggww1@correo.com",
+        "email": "wggww10@correo.com",
         "contrasenia": "texto",
         "foto_path": "",
         "rol": 1,

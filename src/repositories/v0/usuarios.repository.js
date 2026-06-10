@@ -19,13 +19,13 @@ const getById = async (id) => {
 
 // Crear usuario
 const create = async (data) => {
-  const { documento, apellido, nombres, email, contrasenia, rol } = data;
+  const { documento, apellido, nombres, email, contrasenia, foto_path, rol } = data;
 
   const [result] = await pool.query(
     `INSERT INTO usuarios 
-    (documento, apellido, nombres, email, contrasenia, rol, activo)
-    VALUES (?, ?, ?, ?, ?, ?, 1)`,
-    [documento, apellido, nombres, email, contrasenia, rol]
+    (documento, apellido, nombres, email, contrasenia, foto_path, rol, activo)
+    VALUES (?, ?, ?, ?, ?, ?, ?, 1)`,
+    [documento, apellido, nombres, email, contrasenia, foto_path, rol]
   );
 
   return { id: result.insertId };
@@ -159,10 +159,10 @@ async function changeStateId(id) {
 async function registerGeneric(datos) {
   const { documento, apellido, nombres, email, contrasenia, foto_path, rol } = datos;
 
-  const connection = await pool.getConnection(); // Pedís una conexión fija del pool
+  const connection = await pool.getConnection(); 
 
 try {
-    await connection.beginTransaction(); // Iniciás transacción formal
+    await connection.beginTransaction(); 
 
     // 1. Insertar Usuario
     const [userResult] = await connection.query(
@@ -177,7 +177,7 @@ try {
     if (rol === 2) {
         await connection.query(
             `INSERT INTO pacientes (id_usuario, id_obra_social) VALUES (?, ?)`,
-            [v_id_usuario, datos.id_obra_social] // Pasamos el valor directo aquí
+            [v_id_usuario, datos.obra_social] 
         );
     } else if (rol === 1) {
         await connection.query(

@@ -1,0 +1,31 @@
+info:
+  name: V0_POST_USUARIO_GENERICO_MEDICO
+  type: http
+  seq: 22
+
+http:
+  method: POST
+  url: http://localhost:3000/API/V0/usuarios/generico
+  body:
+    type: json
+    data: |-
+      {
+        "documento": "9001154",
+        "apellido": "Perez",
+        "nombres": "Luis",
+        "email": "wggww5@correo.com",
+        "contrasenia": "texto",
+        "foto_path": "",
+        "rol": 1,
+        "especialidad": 4,
+        "matricula": 1,
+        "descripcion": "",
+        "valor_consulta": 100000
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

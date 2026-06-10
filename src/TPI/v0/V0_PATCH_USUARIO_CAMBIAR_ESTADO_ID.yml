@@ -1,21 +1,15 @@
 info:
-  name: V0_PATCH_USUARIO_CORREO_ID
+  name: V0_PATCH_USUARIO_CAMBIAR_ESTADO_ID
   type: http
   seq: 1
 
 http:
   method: PATCH
-  url: http://localhost:3000/usuarios/:id
+  url: http://localhost:3000/api/v0/usuarios/estado/:id
   params:
     - name: id
-      value: "17"
+      value: "1"
       type: path
-  body:
-    type: json
-    data: |-
-      {
-        "email" : "otronuevo@correo.com"
-      }
   auth: inherit
 
 settings:
