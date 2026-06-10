@@ -9,23 +9,87 @@ import { validarCampos } from "../middlewares/validarCampos.js";
 
 const router = Router();
 
+//DOC. SWAGGER
+/**
+ * @swagger
+ * /medicos:
+ *   get:
+ *     summary: Listar médicos
+ *     tags:
+ *       - Médicos
+ *     responses:
+ *       200:
+ *         description: Lista de médicos
+ */
+
 // GET ALL
-router.get(
-  "/",
-  medicosController.getAll
-);
+router.get("/", medicosController.getAll);
+//DOC. SWAGGER GET BY ID
+
+/**
+ * @swagger
+ * /medicos/{id}:
+ *   get:
+ *     summary: Obtener médico por ID
+ *     tags:
+ *       - Médicos
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *           example: 1
+ *     responses:
+ *       200:
+ *         description: Médico encontrado
+ *       404:
+ *         description: Médico no encontrado
+ */
 
 // GET BY ID
 router.get(
   "/:id",
-  [
-    param("id")
-      .isInt()
-      .withMessage("El ID debe ser numérico"),
-    validarCampos
-  ],
-  medicosController.getById
+  [param("id").isInt().withMessage("El ID debe ser numérico"), validarCampos],
+  medicosController.getById,
 );
+//DOC. SWAGGER ASOCIAR OBRAS SOCIALES
+/**
+ * @swagger
+ * /medicos/{id}/obras-sociales:
+ *   post:
+ *     summary: Asociar obras sociales a un médico
+ *     tags:
+ *       - Médicos
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *           example: 1
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               obras_sociales:
+ *                 type: array
+ *                 items:
+ *                   type: integer
+ *                 example: [1, 2, 3]
+ *     responses:
+ *       200:
+ *         description: Obras sociales asociadas correctamente
+ *       401:
+ *         description: No autorizado
+ *       403:
+ *         description: Sin permisos
+ */
 
 // ASOCIAR OBRAS SOCIALES
 router.post(
@@ -34,18 +98,16 @@ router.post(
   autorizarUsuarios([3]),
 
   [
-    param("id")
-      .isInt()
-      .withMessage("El ID del médico debe ser numérico"),
+    param("id").isInt().withMessage("El ID del médico debe ser numérico"),
 
     body("obras_sociales")
       .isArray()
       .withMessage("obras_sociales debe ser un array"),
 
-    validarCampos
+    validarCampos,
   ],
 
-  medicosController.asociarObrasSociales
+  medicosController.asociarObrasSociales,
 );
 
 export default router;

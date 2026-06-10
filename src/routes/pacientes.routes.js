@@ -7,6 +7,21 @@ import autorizarUsuarios from "../middlewares/autorizarUsuarios.js";
 import { validarCampos } from "../middlewares/validarCampos.js";
 
 const router = Router();
+//DOCUMENTACION SWAGGER
+
+/**
+ * @swagger
+ * /pacientes:
+ *   get:
+ *     summary: Listar pacientes
+ *     tags:
+ *       - Pacientes
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Lista de pacientes
+ */
 
 // GET ALL
 router.get(
@@ -15,6 +30,27 @@ router.get(
   autorizarUsuarios([3]),
   pacientesController.getAll,
 );
+//DOCUMENTACION SWAGGER GET BY ID
+
+/**
+ * @swagger
+ * /pacientes/{id}:
+ *   get:
+ *     summary: Obtener paciente por ID
+ *     tags:
+ *       - Pacientes
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Paciente encontrado
+ */
 
 // GET BY ID
 router.get(
@@ -24,6 +60,46 @@ router.get(
   [param("id").isInt().withMessage("El ID debe ser numérico"), validarCampos],
   pacientesController.getById,
 );
+
+// DOCUMENTACION SWAGGER CAMBIAR OBRA SOCIAL
+/**
+ * @swagger
+ * /pacientes/{id}/obra-social:
+ *   put:
+ *     summary: Actualizar obra social de un paciente
+ *     tags:
+ *       - Pacientes
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *           example: 1
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               id_obra_social:
+ *                 type: integer
+ *                 example: 2
+ *     responses:
+ *       200:
+ *         description: Obra social del paciente actualizada
+ *       400:
+ *         description: Datos inválidos
+ *       401:
+ *         description: No autorizado
+ *       403:
+ *         description: Sin permisos
+ *       404:
+ *         description: Paciente no encontrado
+ */
 
 // CAMBIAR OBRA SOCIAL
 router.put(

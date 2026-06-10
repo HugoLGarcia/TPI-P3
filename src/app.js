@@ -18,6 +18,10 @@ import turnosReservasRoutes from "./routes/turnosReservas.routes.js";
 
 import pacientesRoutes from "./routes/pacientes.routes.js";
 
+//swagger
+import swaggerUi from "swagger-ui-express";
+import swaggerSpec from "./config/swagger.js";
+
 const app = express();
 
 // Middlewares globales
@@ -32,22 +36,19 @@ passport.use("jwt", validacion);
 
 app.use(passport.initialize());
 
+// Documentacion Swagger
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
 // Rutas versionadas
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/usuarios", usuariosRoutes);
 app.use("/api/v1/especialidades", especialidadesRoutes);
 
-
 app.use("/api/v1/obras-sociales", obrasSocialesRoutes);
 
 app.use("/api/v1/medicos", medicosRoutes);
 
-app.use(
-  "/api/v1/turnos-reservas",
-  turnosReservasRoutes
-);
-
-
+app.use("/api/v1/turnos-reservas", turnosReservasRoutes);
 
 app.use("/api/v1/pacientes", pacientesRoutes);
 
@@ -55,7 +56,7 @@ app.use("/api/v1/pacientes", pacientesRoutes);
 app.use((req, res) => {
   res.status(404).json({
     estado: false,
-    mensaje: "Recurso no encontrado"
+    mensaje: "Recurso no encontrado",
   });
 });
 
