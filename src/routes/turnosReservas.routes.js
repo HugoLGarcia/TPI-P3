@@ -20,7 +20,7 @@ router.get(
 router.post(
   "/",
   passport.authenticate("jwt", { session: false }),
-  autorizarUsuarios([2]),
+  autorizarUsuarios([2,3]),
 
   [
     body("id_medico")

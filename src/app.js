@@ -35,13 +35,6 @@ app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/usuarios", usuariosRoutes);
 app.use("/api/v1/especialidades", especialidadesRoutes);
 
-// 404
-app.use((req, res) => {
-  res.status(404).json({
-    estado: false,
-    mensaje: "Recurso no encontrado"
-  });
-});
 
 app.use("/api/v1/obras-sociales", obrasSocialesRoutes);
 
@@ -51,6 +44,14 @@ app.use(
   "/api/v1/turnos-reservas",
   turnosReservasRoutes
 );
+
+// 404
+app.use((req, res) => {
+  res.status(404).json({
+    estado: false,
+    mensaje: "Recurso no encontrado"
+  });
+});
 
 app.listen(3000, () => {
   console.log("Servidor corriendo en puerto 3000");
