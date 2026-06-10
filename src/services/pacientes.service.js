@@ -1,11 +1,14 @@
 import pacientesRepository from "../repositories/pacientes.repository.js";
 
-class PacientesService {
+const getAll = () => pacientesRepository.getAll();
 
-    async getById(id) {
-        return await pacientesRepository.getById(id);
-    }
+const getById = (id) => pacientesRepository.getById(id);
 
-}
+const updateObraSocial = (idPaciente, idObraSocial) =>
+  pacientesRepository.updateObraSocial(idPaciente, idObraSocial);
 
-export default new PacientesService();
+export default {
+  getAll,
+  getById,
+  updateObraSocial
+};

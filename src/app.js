@@ -16,6 +16,8 @@ import medicosRoutes from "./routes/medicos.routes.js";
 
 import turnosReservasRoutes from "./routes/turnosReservas.routes.js";
 
+import pacientesRoutes from "./routes/pacientes.routes.js";
+
 const app = express();
 
 // Middlewares globales
@@ -44,6 +46,10 @@ app.use(
   "/api/v1/turnos-reservas",
   turnosReservasRoutes
 );
+
+
+
+app.use("/api/v1/pacientes", pacientesRoutes);
 
 // 404
 app.use((req, res) => {
