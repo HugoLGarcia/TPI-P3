@@ -17,6 +17,8 @@ import medicosRoutes from "./routes/medicos.routes.js";
 import turnosReservasRoutes from "./routes/turnosReservas.routes.js";
 
 import pacientesRoutes from "./routes/pacientes.routes.js";
+//pdf
+import reportesRoutes from "./routes/reportes.routes.js";
 
 //swagger
 import swaggerUi from "swagger-ui-express";
@@ -51,6 +53,8 @@ app.use("/api/v1/medicos", medicosRoutes);
 app.use("/api/v1/turnos-reservas", turnosReservasRoutes);
 
 app.use("/api/v1/pacientes", pacientesRoutes);
+//pdf
+app.use("/api/v1/reportes", reportesRoutes);
 
 // 404
 app.use((req, res) => {
