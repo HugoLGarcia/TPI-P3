@@ -17,6 +17,8 @@ import medicosRoutes from "./routes/medicos.routes.js";
 import turnosReservasRoutes from "./routes/turnosReservas.routes.js";
 
 import pacientesRoutes from "./routes/pacientes.routes.js";
+
+import estadisticasRoutes from "./routes/estadisticas.routes.js"
 //pdf
 import reportesRoutes from "./routes/reportes.routes.js";
 
@@ -53,6 +55,8 @@ app.use("/api/v1/medicos", medicosRoutes);
 app.use("/api/v1/turnos-reservas", turnosReservasRoutes);
 
 app.use("/api/v1/pacientes", pacientesRoutes);
+
+app.use("/api/v1/estadisticas", estadisticasRoutes);
 //pdf
 app.use("/api/v1/reportes", reportesRoutes);
 
