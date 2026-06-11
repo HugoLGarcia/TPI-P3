@@ -154,11 +154,49 @@ const search = async (req, res) => {
   }
 };
 
+
+// Actualizar foto de usuario
+const updateFoto = async (req, res) => {
+  try {
+
+    if (!req.file) {
+      return res.status(400).json({
+        estado: false,
+        mensaje: "Debe seleccionar una imagen"
+      });
+    }
+
+    const fotoPath = req.file.path.replaceAll("\\", "/");
+
+    await usuariosService.updateFoto(
+      req.params.id,
+      fotoPath
+    );
+
+    return res.status(200).json({
+      estado: true,
+      mensaje: "Foto actualizada",
+      foto_path: fotoPath
+    });
+
+  } catch (error) {
+
+    return res.status(500).json({
+      estado: false,
+      mensaje: error.message
+    });
+
+  }
+};
+
+
+
 export default {
   getAll,
   getById,
   create,
   update,
   remove,
-  search
+  search,
+  updateFoto
 };

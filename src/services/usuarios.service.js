@@ -34,13 +34,14 @@ const remove = (id) => usuariosRepository.softDelete(id);
 const search = (texto) => usuariosRepository.search(texto);
 
 const buscar = async (email, contrasenia) => {
-
-  const hash = crypto
-    .createHash("sha256")
-    .update(contrasenia)
-    .digest("hex");
+  const hash = crypto.createHash("sha256").update(contrasenia).digest("hex");
 
   return usuariosRepository.buscar(email, hash);
+};
+
+// Actualizar foto de usuario
+const updateFoto = async (id, fotoPath) => {
+  return await usuariosRepository.updateFoto(id, fotoPath);
 };
 
 export default {
@@ -50,5 +51,6 @@ export default {
   update,
   remove,
   search,
-  buscar
+  buscar,
+  updateFoto,
 };

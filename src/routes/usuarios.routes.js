@@ -4,6 +4,7 @@ import { validarCampos } from "../middlewares/validarCampos.js";
 import usuariosController from "../controllers/usuarios.controller.js";
 import autorizarUsuarios from "../middlewares/autorizarUsuarios.js";
 import autenticarJWT from "../middlewares/autenticarJWT.js";
+import uploadUsuario from "../middlewares/uploadUsuario.js";
 
 const router = Router();
 
@@ -176,6 +177,19 @@ router.put(
   usuariosController.update,
 );
 
+// Actualizar foto de usuario - solo administrador
+router.put(
+  "/:id/foto",
+  autenticarJWT,
+  autorizarUsuarios([3]),
+  [
+    param("id").isInt().withMessage("El ID debe ser numérico"),
+    validarCampos,
+  ],
+  uploadUsuario.single("foto"),
+  usuariosController.updateFoto,
+);
+
 //DOCUMENTACION SWAGGER DELETE
 /**
  * @swagger
@@ -196,6 +210,9 @@ router.put(
  *       200:
  *         description: Usuario eliminado
  */
+
+
+
 
 // Delete - solo administrador
 router.delete(
