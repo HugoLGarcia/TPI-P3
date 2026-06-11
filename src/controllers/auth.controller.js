@@ -1,49 +1,23 @@
-import jwt from "jsonwebtoken";
-import passport from "passport";
+import authService from "../services/auth.service.js";
 
 const login = async (req, res) => {
+  try {
+    const { email, contrasenia } = req.body;
 
-  passport.authenticate(
-    "local",
-    { session: false },
-    (err, usuario) => {
+    const result = await authService.login(email, contrasenia);
 
-      if (err || !usuario) {
-        return res.status(401).json({
-          estado: false,
-          mensaje: "Credenciales incorrectas"
-        });
-      }
+    return res.json({
+      estado: true,
+      token: result.token,
+      usuario: result.usuario
+    });
 
-      req.login(usuario, { session: false }, (error) => {
-
-        if (error) {
-          return res.status(500).json({
-            estado: false,
-            mensaje: "Error interno"
-          });
-        }
-
-        const token = jwt.sign(
-          usuario,
-          process.env.JWT_SECRET,
-          {
-            expiresIn: "1h"
-          }
-        );
-
-        return res.json({
-          estado: true,
-          token
-        });
-
-      });
-
-    }
-  )(req, res);
-
+  } catch (error) {
+    return res.status(401).json({
+      estado: false,
+      mensaje: error.message
+    });
+  }
 };
 
-export default {
-  login
-};
+export default { login };

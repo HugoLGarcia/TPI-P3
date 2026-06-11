@@ -20,6 +20,24 @@ const getAll = async (req, res) => {
   }
 };
 
+const create = async (req, res) => {
+  try {
+    const result = await medicosService.create(req.body);
+
+    res.status(201).json({
+      estado: true,
+      mensaje: "Médico creado correctamente",
+      data: result
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      estado: false,
+      mensaje: error.message
+    });
+  }
+};
+
 const getById = async (req, res) => {
   try {
 
@@ -80,5 +98,6 @@ const asociarObrasSociales = async (req, res) => {
 export default {
   getAll,
   getById,
-  asociarObrasSociales
+  asociarObrasSociales,
+  create
 };

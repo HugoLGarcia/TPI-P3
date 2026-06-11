@@ -6,6 +6,33 @@ import { validarCampos } from "../middlewares/validarCampos.js";
 
 const router = Router();
 
+/**
+ * @swagger
+ * /auth/login:
+ *   post:
+ *     summary: Iniciar sesión
+ *     tags:
+ *       - Auth
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 example: admin@mail.com
+ *               contrasenia:
+ *                 type: string
+ *                 example: 123456
+ *     responses:
+ *       200:
+ *         description: Login exitoso
+ *       400:
+ *         description: Datos inválidos
+ */
+
 router.post(
   "/login",
   [

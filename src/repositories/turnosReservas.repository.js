@@ -34,33 +34,95 @@ class TurnosReservasRepository {
 
     async getTurnosByMedico(id_usuario) {
         const sql = `
-            SELECT tr.fecha_hora, tr.valor_total
-            FROM usuarios u
-            INNER JOIN medicos m
-                ON m.id_usuario = u.id_usuario
-            INNER JOIN turnos_reservas tr
-                ON tr.id_medico = m.id_medico
-            WHERE u.id_usuario = ?
-        `;
+        SELECT 
+            tr.fecha_hora,
+            tr.valor_total,
+
+            m.id_medico,
+            u_medico.nombres AS medico_nombres,
+            u_medico.apellido AS medico_apellido,
+            u_medico.email AS medico_email,
+
+            e.nombre AS especialidad,
+
+            p.id_paciente,
+            u_paciente.nombres AS paciente_nombres,
+            u_paciente.apellido AS paciente_apellido,
+            u_paciente.email AS paciente_email,
+
+            os.nombre AS obra_social
+
+        FROM turnos_reservas tr
+
+        INNER JOIN medicos m 
+            ON m.id_medico = tr.id_medico
+
+        INNER JOIN usuarios u_medico 
+            ON u_medico.id_usuario = m.id_usuario
+
+        INNER JOIN pacientes p 
+            ON p.id_paciente = tr.id_paciente
+
+        INNER JOIN usuarios u_paciente 
+            ON u_paciente.id_usuario = p.id_usuario
+
+        INNER JOIN especialidades e 
+            ON e.id_especialidad = m.id_especialidad
+
+        INNER JOIN obras_sociales os 
+            ON os.id_obra_social = tr.id_obra_social
+
+        WHERE u_medico.id_usuario = ?
+    `;
 
         const [turnos] = await pool.execute(sql, [id_usuario]);
-
         return turnos;
     }
 
     async getTurnosByPaciente(id_usuario) {
         const sql = `
-            SELECT tr.fecha_hora, tr.valor_total
-            FROM usuarios u
-            INNER JOIN pacientes p
-                ON p.id_usuario = u.id_usuario
-            INNER JOIN turnos_reservas tr
-                ON tr.id_paciente = p.id_paciente
-            WHERE u.id_usuario = ?
-        `;
+        SELECT 
+            tr.fecha_hora,
+            tr.valor_total,
+            tr.atendido,
+            m.id_medico,
+            u_medico.nombres AS medico_nombres,
+            u_medico.apellido AS medico_apellido,
+            u_medico.email AS medico_email,
+
+            e.nombre AS especialidad,
+
+            p.id_paciente,
+            u_paciente.nombres AS paciente_nombres,
+            u_paciente.apellido AS paciente_apellido,
+            u_paciente.email AS paciente_email,
+
+            os.nombre AS obra_social
+
+        FROM turnos_reservas tr
+
+        INNER JOIN pacientes p 
+            ON p.id_paciente = tr.id_paciente
+
+        INNER JOIN usuarios u_paciente 
+            ON u_paciente.id_usuario = p.id_usuario
+
+        INNER JOIN medicos m 
+            ON m.id_medico = tr.id_medico
+
+        INNER JOIN usuarios u_medico 
+            ON u_medico.id_usuario = m.id_usuario
+
+        INNER JOIN especialidades e 
+            ON e.id_especialidad = m.id_especialidad
+
+        INNER JOIN obras_sociales os 
+            ON os.id_obra_social = tr.id_obra_social
+
+        WHERE u_paciente.id_usuario = ?
+    `;
 
         const [turnos] = await pool.execute(sql, [id_usuario]);
-
         return turnos;
     }
 
@@ -68,7 +130,7 @@ class TurnosReservasRepository {
 
         const sql = `
         UPDATE turnos_reservas
-        SET atentido = 1
+        SET atendido = 1
         WHERE id_turno_reserva = ?
         AND activo = 1
     `;
@@ -87,7 +149,7 @@ class TurnosReservasRepository {
         SELECT
             tr.id_turno_reserva,
             tr.id_medico,
-            tr.atentido,
+            tr.atendido,
             m.id_usuario
         FROM turnos_reservas tr
         INNER JOIN medicos m

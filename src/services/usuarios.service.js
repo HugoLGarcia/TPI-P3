@@ -1,4 +1,5 @@
 import usuariosRepository from "../repositories/usuarios.repository.js";
+import pacientesRepository from "../repositories/pacientes.repository.js";
 import crypto from "crypto";
 
 const getAll = () => usuariosRepository.getAll();
@@ -11,9 +12,22 @@ const create = async (data) => {
     .update(data.contrasenia)
     .digest("hex");
 
-  const newData = { ...data, contrasenia: hash };
+  const newData = {
+    ...data,
+    contrasenia: hash
+  };
 
-  return await usuariosRepository.create(newData);
+  const usuario = await usuariosRepository.create(newData);
+
+  // Rol 2 = Paciente
+  if (Number(data.rol) === 2) {
+    await pacientesRepository.create(
+      usuario.id,
+      6 // PARTICULAR
+    );
+  }
+
+  return usuario;
 };
 
 const update = async (id, data) => {

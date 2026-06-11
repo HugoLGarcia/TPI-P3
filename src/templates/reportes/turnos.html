@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    .info {
+      margin-bottom: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th,
+    td {
+      border: 1px solid #000;
+      padding: 8px;
+      font-size: 12px;
+    }
+
+    th {
+      background-color: #f0f0f0;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Reporte de Turnos</h1>
+
+  <div class="info">
+    <p><strong>Fecha:</strong> {{fechaGeneracion}}</p>
+    <p><strong>Cantidad de turnos:</strong> {{cantidadTurnos}}</p>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Fecha</th>
+        <th>Hora</th>
+        <th>Médico</th>
+        <th>Paciente</th>
+        <th>Obra Social</th>
+        <th>Estado</th>
+        <th>Valor</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {{#each turnos}}
+      <tr>
+        <td>{{fecha}}</td>
+        <td>{{hora}}</td>
+        <td>{{medico_apellido}} {{medico_nombres}}</td>
+        <td>{{paciente_apellido}} {{paciente_nombres}}</td>
+        <td>{{obra_social}}</td>
+        <td>
+          {{#if atendido}}
+          ✔ Atendido
+          {{else}}
+          ⏳ Pendiente
+          {{/if}}
+        </td>
+        <td>${{valor_total}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</body>
+
+</html>

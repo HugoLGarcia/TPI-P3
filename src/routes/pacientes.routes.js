@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { body, param } from "express-validator";
 
-import especialidadesController from "../controllers/especialidades.controller.js";
+import pacientesController from "../controllers/pacientes.controller.js";
 import { validarCampos } from "../middlewares/validarCampos.js";
 
 import passport from "passport";
@@ -12,37 +12,33 @@ const router = Router();
 
 /**
  * @swagger
- * /especialidades:
+ * /pacientes:
  *   get:
- *     summary: Obtener todas las especialidades
+ *     summary: Listar pacientes
  *     tags:
- *       - Especialidades
+ *       - Pacientes
  *     security:
  *       - bearerAuth: []
  *     responses:
  *       200:
- *         description: Lista de especialidades
- *       401:
- *         description: No autorizado
- *       403:
- *         description: Sin permisos
+ *         description: Lista de pacientes
  */
 
 // GET ALL
 router.get(
   "/",
   passport.authenticate("jwt", { session: false }),
-  autorizarUsuarios([ROLES.ADMIN, ROLES.PACIENTE]),
-  especialidadesController.getAll
+  autorizarUsuarios([ROLES.ADMIN]),
+  pacientesController.getAll
 );
 
 /**
  * @swagger
- * /especialidades/{id}:
+ * /pacientes/{id}:
  *   get:
- *     summary: Obtener especialidad por ID
+ *     summary: Obtener paciente por ID
  *     tags:
- *       - Especialidades
+ *       - Pacientes
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -51,12 +47,9 @@ router.get(
  *         required: true
  *         schema:
  *           type: integer
- *           example: 1
  *     responses:
  *       200:
- *         description: Especialidad encontrada
- *       404:
- *         description: Especialidad no encontrada
+ *         description: Paciente encontrado
  */
 
 // GET BY ID
@@ -66,16 +59,16 @@ router.get(
   autorizarUsuarios([ROLES.ADMIN]),
   param("id").isInt().withMessage("El ID debe ser numérico"),
   validarCampos,
-  especialidadesController.getById
+  pacientesController.getById
 );
 
 /**
  * @swagger
- * /especialidades:
+ * /pacientes:
  *   post:
- *     summary: Crear especialidad
+ *     summary: Crear paciente
  *     tags:
- *       - Especialidades
+ *       - Pacientes
  *     security:
  *       - bearerAuth: []
  *     requestBody:
@@ -85,12 +78,15 @@ router.get(
  *           schema:
  *             type: object
  *             properties:
- *               nombre:
- *                 type: string
- *                 example: DERMATOLOGÍA
+ *               id_usuario:
+ *                 type: integer
+ *                 example: 10
+ *               id_obra_social:
+ *                 type: integer
+ *                 example: 2
  *     responses:
  *       201:
- *         description: Especialidad creada
+ *         description: Paciente creado
  *       400:
  *         description: Datos inválidos
  *       401:
@@ -98,23 +94,25 @@ router.get(
  *       403:
  *         description: Sin permisos
  */
-// CREATE
+
+//CREATE
 router.post(
   "/",
   passport.authenticate("jwt", { session: false }),
   autorizarUsuarios([ROLES.ADMIN]),
-  body("nombre").notEmpty().withMessage("Nombre obligatorio"),
+  body("id_usuario").isInt().withMessage("id_usuario inválido"),
+  body("id_obra_social").isInt().withMessage("id_obra_social inválido"),
   validarCampos,
-  especialidadesController.create
+  pacientesController.create
 );
 
 /**
  * @swagger
- * /especialidades/{id}:
+ * /pacientes/{id}/obra-social:
  *   put:
- *     summary: Actualizar especialidad
+ *     summary: Actualizar obra social de un paciente
  *     tags:
- *       - Especialidades
+ *       - Pacientes
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -123,6 +121,7 @@ router.post(
  *         required: true
  *         schema:
  *           type: integer
+ *           example: 1
  *     requestBody:
  *       required: true
  *       content:
@@ -130,53 +129,31 @@ router.post(
  *           schema:
  *             type: object
  *             properties:
- *               nombre:
- *                 type: string
- *                 example: DERMATOLOGÍA CLÍNICA
+ *               id_obra_social:
+ *                 type: integer
+ *                 example: 2
  *     responses:
  *       200:
- *         description: Especialidad actualizada
+ *         description: Obra social del paciente actualizada
+ *       400:
+ *         description: Datos inválidos
+ *       401:
+ *         description: No autorizado
+ *       403:
+ *         description: Sin permisos
+ *       404:
+ *         description: Paciente no encontrado
  */
 
-// UPDATE
+// UPDATE OBRA SOCIAL
 router.put(
-  "/:id",
+  "/:id/obra-social",
   passport.authenticate("jwt", { session: false }),
   autorizarUsuarios([ROLES.ADMIN]),
   param("id").isInt().withMessage("El ID debe ser numérico"),
-  body("nombre").optional().notEmpty().withMessage("Nombre inválido"),
+  body("id_obra_social").isInt().withMessage("El id_obra_social debe ser numérico"),
   validarCampos,
-  especialidadesController.update
-);
-
-/**
- * @swagger
- * /especialidades/{id}:
- *   delete:
- *     summary: Eliminar especialidad
- *     tags:
- *       - Especialidades
- *     security:
- *       - bearerAuth: []
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: integer
- *     responses:
- *       200:
- *         description: Especialidad eliminada
- */
-
-// DELETE
-router.delete(
-  "/:id",
-  passport.authenticate("jwt", { session: false }),
-  autorizarUsuarios([ROLES.ADMIN]),
-  param("id").isInt().withMessage("El ID debe ser numérico"),
-  validarCampos,
-  especialidadesController.remove
+  pacientesController.updateObraSocial
 );
 
 export default router;

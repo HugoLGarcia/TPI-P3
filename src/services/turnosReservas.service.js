@@ -2,21 +2,34 @@ import turnosReservasRepository from "../repositories/turnosReservas.repository.
 import medicosService from "./medicos.service.js";
 import pacientesService from "./pacientes.service.js";
 import obrasSocialesService from "./obrasSociales.service.js";
+import { toTurnoDTO } from "../dtos/turnosdto.js";
 
 const getAll = async (usuario) => {
+  let rows;
 
   if (usuario.rol === 1) {
-    return await turnosReservasRepository.getTurnosByMedico(
+    rows = await turnosReservasRepository.getTurnosByMedico(
+      usuario.id_usuario
+    );
+  } else {
+    rows = await turnosReservasRepository.getTurnosByPaciente(
       usuario.id_usuario
     );
   }
 
-  return await turnosReservasRepository.getTurnosByPaciente(
-    usuario.id_usuario
-  );
+  return rows.map(toTurnoDTO);
 };
 
 const create = async (turnoReserva) => {
+
+  const fechaTurno = new Date(turnoReserva.fecha_hora);
+  const minutos = fechaTurno.getMinutes();
+
+  if (![0, 15, 30, 45].includes(minutos)) {
+    throw new Error(
+      "Los turnos solo pueden reservarse cada 15 minutos"
+    );
+  }
 
   const medico = await medicosService.getById(
     turnoReserva.id_medico
@@ -57,7 +70,6 @@ const create = async (turnoReserva) => {
       "El paciente ya tiene un turno asignado en ese horario"
     );
   }
-
 
   const obraSocial = await obrasSocialesService.getById(
     paciente.id_obra_social
@@ -104,7 +116,7 @@ const marcarAtendido = async (
     );
   }
 
-  if (turno.atentido === 1) {
+  if (turno.atendido === 1) {
     throw new Error(
       "El turno ya fue marcado como atendido"
     );

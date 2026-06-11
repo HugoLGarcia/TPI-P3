@@ -1,29 +1,68 @@
 import { Router } from "express";
 import { body, param } from "express-validator";
+
 import { validarCampos } from "../middlewares/validarCampos.js";
 import usuariosController from "../controllers/usuarios.controller.js";
-import passport from "passport";
 import autorizarUsuarios from "../middlewares/autorizarUsuarios.js";
-import autenticarJWT from "../middlewares/autenticarJWT.js";
+import passport from "passport";
+import ROLES from "../constants/roles.js";
 
 const router = Router();
 
-// BREAD
+/**
+ * @swagger
+ * /usuarios:
+ *   get:
+ *     summary: Listar usuarios
+ *     tags:
+ *       - Usuarios
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Lista de usuarios
+ *       401:
+ *         description: No autorizado
+ *       403:
+ *         description: Sin permisos
+ */
 
-// Get All
+// Get All - solo administrador
 router.get(
   "/",
-  autenticarJWT,
   passport.authenticate("jwt", { session: false }),
-  autorizarUsuarios([3]),
+  autorizarUsuarios([ROLES.ADMIN]),
   usuariosController.getAll
 );
 
-// GET BY ID con validación
+/**
+ * @swagger
+ * /usuarios/{id}:
+ *   get:
+ *     summary: Obtener usuario por ID
+ *     tags:
+ *       - Usuarios
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *           example: 1
+ *     responses:
+ *       200:
+ *         description: Usuario encontrado
+ *       404:
+ *         description: Usuario no encontrado
+ */
+
+// Get By ID - solo administrador
 router.get(
   "/:id",
   passport.authenticate("jwt", { session: false }),
-  autorizarUsuarios([3]),
+  autorizarUsuarios([ROLES.ADMIN]),
   [
     param("id").isInt().withMessage("El ID debe ser numérico"),
     validarCampos
@@ -31,16 +70,57 @@ router.get(
   usuariosController.getById
 );
 
-// Create
+/**
+ * @swagger
+ * /usuarios:
+ *   post:
+ *     summary: Crear usuario
+ *     tags:
+ *       - Usuarios
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               documento:
+ *                 type: string
+ *                 example: "40111222"
+ *               apellido:
+ *                 type: string
+ *                 example: Perez
+ *               nombres:
+ *                 type: string
+ *                 example: Juan
+ *               email:
+ *                 type: string
+ *                 example: juanp@correo.com
+ *               contrasenia:
+ *                 type: string
+ *                 example: juanp123
+ *               rol:
+ *                 type: integer
+ *                 example: 2
+ *     responses:
+ *       201:
+ *         description: Usuario creado
+ */
+
+// Create - solo administrador
 router.post(
   "/",
+  passport.authenticate("jwt", { session: false }),
+  autorizarUsuarios([ROLES.ADMIN]),
   [
     body("documento").notEmpty().withMessage("Documento obligatorio"),
     body("apellido").notEmpty().withMessage("Apellido obligatorio"),
     body("nombres").notEmpty().withMessage("Nombres obligatorios"),
     body("email").isEmail().withMessage("Email inválido"),
     body("contrasenia")
-      .isLength({ min: 6 })
+      .isLength({ min: 3 })
       .withMessage("La contraseña debe tener al menos 6 caracteres"),
     body("rol").notEmpty().withMessage("Rol obligatorio"),
     validarCampos
@@ -48,9 +128,44 @@ router.post(
   usuariosController.create
 );
 
-// Update
+/**
+ * @swagger
+ * /usuarios/{id}:
+ *   put:
+ *     summary: Actualizar usuario
+ *     tags:
+ *       - Usuarios
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 example: nuevo@correo.com
+ *               contrasenia:
+ *                 type: string
+ *                 example: nueva123
+ *     responses:
+ *       200:
+ *         description: Usuario actualizado
+ */
+
+// Update - solo administrador
 router.put(
   "/:id",
+  passport.authenticate("jwt", { session: false }),
+  autorizarUsuarios([ROLES.ADMIN]),
   [
     param("id").isInt().withMessage("El ID debe ser numérico"),
     body("email").optional().isEmail().withMessage("Email inválido"),
@@ -63,9 +178,31 @@ router.put(
   usuariosController.update
 );
 
-// Delete
+/**
+ * @swagger
+ * /usuarios/{id}:
+ *   delete:
+ *     summary: Eliminar usuario
+ *     tags:
+ *       - Usuarios
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Usuario eliminado
+ */
+
+// Delete - solo administrador
 router.delete(
   "/:id",
+  passport.authenticate("jwt", { session: false }),
+  autorizarUsuarios([ROLES.ADMIN]),
   [
     param("id").isInt().withMessage("El ID debe ser numérico"),
     validarCampos

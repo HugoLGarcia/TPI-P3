@@ -8,6 +8,38 @@ const getAll = async () => {
   return rows;
 };
 
+const create = async (data) => {
+  const {
+    id_usuario,
+    id_especialidad,
+    matricula,
+    descripcion,
+    valor_consulta
+  } = data;
+
+  const [result] = await pool.query(
+    `INSERT INTO medicos
+     (id_usuario, id_especialidad, matricula, descripcion, valor_consulta)
+     VALUES (?, ?, ?, ?, ?)`,
+    [
+      id_usuario,
+      id_especialidad,
+      matricula,
+      descripcion,
+      valor_consulta
+    ]
+  );
+
+  return {
+    id_medico: result.insertId,
+    id_usuario,
+    id_especialidad,
+    matricula,
+    descripcion,
+    valor_consulta
+  };
+};
+
 const getById = async (id) => {
   const [rows] = await pool.query(
     "SELECT * FROM medicos WHERE id_medico = ?",
@@ -61,5 +93,6 @@ const asociarObrasSociales = async (id_medico, obras_sociales) => {
 export default {
   getAll,
   getById,
-  asociarObrasSociales
+  asociarObrasSociales,
+  create
 };
