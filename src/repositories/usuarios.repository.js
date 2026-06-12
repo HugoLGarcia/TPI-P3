@@ -120,6 +120,22 @@ const buscar = async (email, contrasenia) => {
   return rows[0];
 };
 
+// Actualizar foto de usuario
+const updateFoto = async (id, fotoPath) => {
+  const [result] = await pool.query(
+    `UPDATE usuarios
+     SET foto_path = ?
+     WHERE id_usuario = ? AND activo = 1`,
+    [fotoPath, id]
+  );
+
+  if (result.affectedRows === 0) {
+    throw new Error("Usuario no encontrado o inactivo");
+  }
+
+  return { message: "Foto de usuario actualizada" };
+};
+
 export default {
   getAll,
   getById,
@@ -127,5 +143,6 @@ export default {
   update,
   softDelete,
   search,
-  buscar
+  buscar,
+  updateFoto
 };

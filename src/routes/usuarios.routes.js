@@ -4,6 +4,7 @@ import { body, param } from "express-validator";
 import { validarCampos } from "../middlewares/validarCampos.js";
 import usuariosController from "../controllers/usuarios.controller.js";
 import autorizarUsuarios from "../middlewares/autorizarUsuarios.js";
+import uploadUsuario from "../middlewares/uploadUsuario.js";
 import passport from "passport";
 import ROLES from "../constants/roles.js";
 
@@ -121,7 +122,7 @@ router.post(
     body("email").isEmail().withMessage("Email inválido"),
     body("contrasenia")
       .isLength({ min: 3 })
-      .withMessage("La contraseña debe tener al menos 6 caracteres"),
+      .withMessage("La contraseña debe tener al menos 3 caracteres"),
     body("rol").notEmpty().withMessage("Rol obligatorio"),
     validarCampos
   ],
@@ -176,6 +177,48 @@ router.put(
     validarCampos
   ],
   usuariosController.update
+);
+
+/**
+ * @swagger
+ * /usuarios/{id}/foto:
+ *   put:
+ *     summary: Actualizar foto de usuario
+ *     tags:
+ *       - Usuarios
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               foto:
+ *                 type: string
+ *                 format: binary
+ *     responses:
+ *       200:
+ *         description: Foto actualizada correctamente
+ */
+
+router.put(
+  "/:id/foto",
+  passport.authenticate("jwt", { session: false }),
+  autorizarUsuarios([ROLES.ADMIN]),
+  [
+    param("id").isInt().withMessage("El ID debe ser numérico"),
+    validarCampos
+  ],
+  uploadUsuario.single("foto"),
+  usuariosController.updateFoto
 );
 
 /**

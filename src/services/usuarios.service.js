@@ -43,6 +43,10 @@ const update = async (id, data) => {
   return await usuariosRepository.update(id, data);
 };
 
+const updateFoto = async (id, fotoPath) => {
+  return await usuariosRepository.updateFoto(id, fotoPath);
+};
+
 const remove = (id) => usuariosRepository.softDelete(id);
 
 const search = (texto) => usuariosRepository.search(texto);
@@ -64,5 +68,6 @@ export default {
   update,
   remove,
   search,
-  buscar
+  buscar,
+  updateFoto
 };

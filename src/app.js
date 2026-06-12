@@ -8,6 +8,7 @@ import passport from "passport";
 import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
+import path from "path";
 
 import authRoutes from "./routes/auth.routes.js";
 import usuariosRoutes from "./routes/usuarios.routes.js";
@@ -17,6 +18,7 @@ import medicosRoutes from "./routes/medicos.routes.js";
 import turnosReservasRoutes from "./routes/turnosReservas.routes.js";
 import pacientesRoutes from "./routes/pacientes.routes.js";
 import reportesRoutes from "./routes/reportes.routes.js";
+import estadisticasRoutes from "./routes/estadisticas.routes.js";
 
 import { estrategia, validacion } from "./config/passport.js";
 
@@ -31,6 +33,7 @@ app.use(express.json());
 app.use(cors());
 app.use(helmet());
 app.use(morgan("dev"));
+app.use("/uploads", express.static("uploads"));
 
 // Passport config
 passport.use("local", estrategia);
@@ -45,6 +48,7 @@ app.use("/api/v1/medicos", medicosRoutes);
 app.use("/api/v1/turnos-reservas", turnosReservasRoutes);
 app.use("/api/v1/pacientes", pacientesRoutes);
 app.use("/api/v1/reportes", reportesRoutes);
+app.use("/api/v1/estadisticas", estadisticasRoutes);
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
