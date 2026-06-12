@@ -1,5 +1,10 @@
 import express from "express";
 
+import fs from "fs";
+import morgan from "morgan";
+
+import helmet from "helmet";
+
 import passport from "passport";
 import { estrategia, validacion } from "./config/passport.js";
 
@@ -14,7 +19,21 @@ import authRoutes from "./routes/auth.routes.js";
 import especialidadesRoutes from "./routes/especialidades.routes.js";
 import obrassocialesRoutes from "./routes/obrassociales.routes.js";
 
+import { testConexion } from "./db/connection/test-connection.js";
+
 const app = express();
+
+app.use(helmet());
+
+await testConexion();
+
+let log = fs.createWriteStream('./accesos.log', { 
+    //flags: 'a'
+    flags: 'w' // Sobrescribe el archivo en cada ejecución
+});
+
+app.use(morgan('dev'));
+app.use(morgan('combined', {stream: log}));
 
 app.use(express.json());
 
@@ -39,7 +58,7 @@ const swaggerOptions = {
     ],
   },
   // Escanea el archivo actual y cualquier archivo JS dentro de la carpeta routes
-  apis: ['./app.js', './routes/*.js', './routes/**/*.js'], 
+  apis: ['./turnero.js', './routes/*.js', './routes/**/*.js'], 
 };
 
 const swaggerDocs = swaggerJsdoc(swaggerOptions);
@@ -47,7 +66,7 @@ const swaggerDocs = swaggerJsdoc(swaggerOptions);
 // Interfaz gráfica de Swagger
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
-// Ejemplo de Endpoint documentado directamente en app.js
+// Ejemplo de Endpoint documentado directamente en turnero.js
 /**
  * @openapi
  * /api/status:
@@ -81,7 +100,4 @@ app.use(
   obrassocialesRoutes
 );
 
-app.listen(3000, () => {
-  console.log("Servidor corriendo en puerto 3000");
-  console.log('Swagger disponible en http://localhost:3000/api-docs');
-});
+export default app;

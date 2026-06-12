@@ -2,9 +2,9 @@
   "name": "tpi-p3",
   "version": "1.0.0",
   "description": "Trabajo final integrador para la materia Programación 3",
-  "main": "index.js",
+  "main": "turnero.js",
   "scripts": {
-    "start": "node --watch src/app.js",
+    "start": "node --watch src/turnero.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
