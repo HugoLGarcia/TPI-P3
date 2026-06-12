@@ -11,13 +11,13 @@ import { estrategia, validacion } from "./config/passport.js";
 import swaggerUi from 'swagger-ui-express';
 import swaggerJsdoc from 'swagger-jsdoc';
 
-
 import usuariosRoutesv0 from "./routes/v0/usuarios.routes.js";
 
 import usuariosRoutes from "./routes/usuarios.routes.js";
 import authRoutes from "./routes/auth.routes.js";
 import especialidadesRoutes from "./routes/especialidades.routes.js";
 import obrassocialesRoutes from "./routes/obrassociales.routes.js";
+import medicosRoutes from "./routes/medicos.routes.js";
 
 import { testConexion } from "./db/connection/test-connection.js";
 
@@ -98,6 +98,11 @@ app.use(
 app.use(
   "/api/v1/obrassociales",
   obrassocialesRoutes
+);
+
+app.use(
+  "/api/v1/medicos",
+  medicosRoutes
 );
 
 export default app;

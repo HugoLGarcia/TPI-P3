@@ -1,0 +1,27 @@
+info:
+  name: V1_POST_MEDICO_ID_OBRAS_SOCIALES
+  type: http
+  seq: 16
+
+http:
+  method: POST
+  url: http://localhost:3000/api/v1/medicos/:id_medico/obras-sociales
+  params:
+    - name: id_medico
+      value: "1"
+      type: path
+  body:
+    type: json
+    data: |-
+      {
+        "obras_sociales" : [
+          {"id_obra_social" : 2},
+          {"id_obra_social" : 3}
+        ]
+      }
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

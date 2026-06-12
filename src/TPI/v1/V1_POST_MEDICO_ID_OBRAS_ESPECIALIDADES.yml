@@ -1,0 +1,27 @@
+info:
+  name: V1_POST_MEDICO_ID_OBRAS_ESPECIALIDADES
+  type: http
+  seq: 17
+
+http:
+  method: POST
+  url: http://localhost:3000/api/v1/medicos/:id_medico/especialidades
+  params:
+    - name: id_medico
+      value: "1"
+      type: path
+  body:
+    type: json
+    data: |-
+      {
+        "especialidades" : [
+          {"id_especialidad" : 2},
+          {"id_especialidad" : 3}
+        ]
+      }
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

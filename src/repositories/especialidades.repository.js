@@ -2,6 +2,7 @@ import { pool } from "../db/connection/connection.js";
 
 // Obtener todas las especialidades activas
 const getAll = async () => {
+  console.log("Ejecutando getAll de especialidades.repository.js");
   const [rows] = await pool.query(
     "SELECT * FROM especialidades WHERE activo = 1"
   );

@@ -156,6 +156,7 @@ async function changeStateId(id) {
 };
 
 // Registrar usuario genérico (médico o paciente, dependiendo de los datos enviados)
+//Transacción
 async function registerGeneric(datos) {
   const { documento, apellido, nombres, email, contrasenia, foto_path, rol } = datos;
 
@@ -171,7 +172,7 @@ try {
         [documento, apellido, nombres, email, contrasenia, foto_path, rol]
     );
 
-    const v_id_usuario = userResult.insertId; // Obtenés el ID directamente en JS
+    const v_id_usuario = userResult.insertId; // ID del nuevo usuario creado
 
     // 2. Insertar según Rol (Aquí el id_obra_social NO será NULL)
     if (rol === 2) {

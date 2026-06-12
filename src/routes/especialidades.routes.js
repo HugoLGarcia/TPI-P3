@@ -1,6 +1,8 @@
 import { Router } from "express";
 import { body, param } from "express-validator";
 
+import apicache from "apicache";
+
 import especialidadesController from "../controllers/especialidades.controller.js";
 import { validarCampos } from "../middlewares/validarCampos.js";
 
@@ -9,11 +11,14 @@ import autorizarUsuarios from "../middlewares/autorizarUsuarios.js";
 
 const router = Router();
 
+const cache = apicache.middleware;
+
 // GET ALL
 router.get(
   "/",
-  passport.authenticate("jwt", { session: false }),
-  autorizarUsuarios([3]),
+  cache("5 minutes"),
+  //passport.authenticate("jwt", { session: false }),
+  //autorizarUsuarios([3]),
   especialidadesController.getAll
 );
 
@@ -35,8 +40,8 @@ router.get(
 router.post(
   "/",
   [
-    passport.authenticate("jwt", { session: false }),
-    autorizarUsuarios([3]),
+    //passport.authenticate("jwt", { session: false }),
+    //autorizarUsuarios([3]),
 
     body("nombre")
       .notEmpty()
