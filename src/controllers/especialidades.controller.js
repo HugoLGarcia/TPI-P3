@@ -123,5 +123,5 @@ export default {
   getById,
   create,
   update,
-  remove
+  remove,
 };

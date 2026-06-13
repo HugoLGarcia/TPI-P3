@@ -26,6 +26,14 @@ async function registrarTurno(datos) {
     }
     };
 
+    async function porEspecialidad() {
+        const sql = 'CALL sp_reporte_total_turnos_por_especialidad_consola()';
+        const [datos] = await pool.execute(sql);
+        return datos[0];
+    };
+    
+
 export default {
-  registrarTurno
+  registrarTurno,
+  porEspecialidad
 };

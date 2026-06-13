@@ -11,6 +11,8 @@ import { estrategia, validacion } from "./config/passport.js";
 import swaggerUi from 'swagger-ui-express';
 import swaggerJsdoc from 'swagger-jsdoc';
 
+import cors from "cors";
+
 import usuariosRoutesv0 from "./routes/v0/usuarios.routes.js";
 
 import usuariosRoutes from "./routes/usuarios.routes.js";
@@ -35,6 +37,8 @@ let log = fs.createWriteStream('./accesos.log', {
 
 app.use(morgan('dev'));
 app.use(morgan('combined', {stream: log}));
+
+//app.use(cors());
 
 app.use(express.json());
 

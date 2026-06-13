@@ -91,10 +91,11 @@ const softDelete = async (id) => {
   };
 };
 
+
 export default {
   getAll,
   getById,
   create,
   update,
-  softDelete
+  softDelete,
 };

@@ -24,4 +24,10 @@ router.post(
     turnosController.create
 );
 
+router.get(
+    "/por-especialidad",
+    turnosController.porEspecialidad
+);
+
+
 export default router;

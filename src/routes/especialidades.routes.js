@@ -26,8 +26,8 @@ router.get(
 router.get(
   "/:id",
   [
-    passport.authenticate("jwt", { session: false }),
-    autorizarUsuarios([3]),
+    //passport.authenticate("jwt", { session: false }),
+    //autorizarUsuarios([3]),
     param("id")
       .isInt()
       .withMessage("El ID debe ser numérico"),
@@ -56,8 +56,8 @@ router.post(
 router.put(
   "/:id",
   [
-    passport.authenticate("jwt", { session: false }),
-    autorizarUsuarios([3]),
+    //passport.authenticate("jwt", { session: false }),
+    //autorizarUsuarios([3]),
 
     param("id")
       .isInt()
@@ -77,8 +77,8 @@ router.put(
 router.delete(
   "/:id",
   [
-    passport.authenticate("jwt", { session: false }),
-    autorizarUsuarios([3]),
+    //passport.authenticate("jwt", { session: false }),
+    //autorizarUsuarios([3]),
 
     param("id")
       .isInt()

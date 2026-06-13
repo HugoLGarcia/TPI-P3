@@ -2,6 +2,7 @@ import turnosRepository from "../repositories/turnos.repository.js";
 import medicosService from "./medicos.service.js";
 import usuariosService from "./usuarios.service.js";
 import obrasSocialesService from "./obrassociales.service.js";
+import informesService from "./informes.services.js";
 
 
 const create = async (data) => {
@@ -26,6 +27,24 @@ const create = async (data) => {
       }
 };
 
+ const porEspecialidad = async () => {
+        // BUSCO LOS DATOS
+        const datos = await turnosRepository.porEspecialidad();
+        console.log(datos);
+        // SERVICIO PARA GENERAR ARCHIVO PDF         
+        const pdf = await informesService.reportePorEspecialidades(datos);
+       
+  
+        return {
+            buffer: Buffer.from(pdf),  
+            headers: {
+                'Content-Type': 'application/pdf', 
+                'Content-Disposition':'inline; filename="reporte.pdf"'
+            }
+        }
+    }
+
 export default {
-  create
+  create,
+  porEspecialidad
 };
