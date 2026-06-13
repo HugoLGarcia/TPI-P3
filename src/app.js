@@ -19,6 +19,8 @@ import turnosReservasRoutes from "./routes/turnosReservas.routes.js";
 import pacientesRoutes from "./routes/pacientes.routes.js";
 //pdf
 import reportesRoutes from "./routes/reportes.routes.js";
+//estadisticas
+import estadisticasRoutes from "./routes/estadisticas.routes.js";
 
 //swagger
 import swaggerUi from "swagger-ui-express";
@@ -37,6 +39,9 @@ passport.use("local", estrategia);
 passport.use("jwt", validacion);
 
 app.use(passport.initialize());
+
+//estadisticas
+app.use("/api/v1/estadisticas", estadisticasRoutes);
 
 // Documentacion Swagger
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
