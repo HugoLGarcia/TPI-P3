@@ -39,6 +39,28 @@ const getById = async (req, res) => {
   }
 };
 
+const create = async (req, res) => {
+  try {
+
+    const result = await pacientesService.create(req.body);
+
+    res.status(201).json({
+      estado: true,
+      mensaje: "Paciente creado",
+      data: result
+    });
+
+  } catch (error) {
+
+    res.status(500).json({
+      estado: false,
+      mensaje: error.message
+    });
+
+  }
+};
+
+
 const updateObraSocial = async (req, res) => {
   try {
     const result = await pacientesService.updateObraSocial(
@@ -65,8 +87,11 @@ const updateObraSocial = async (req, res) => {
   }
 };
 
+
+
 export default {
   getAll,
   getById,
   updateObraSocial,
+  create
 };

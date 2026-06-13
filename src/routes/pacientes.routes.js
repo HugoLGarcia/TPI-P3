@@ -61,6 +61,20 @@ router.get(
   pacientesController.getById,
 );
 
+router.post(
+  "/",
+  autenticarJWT,
+  autorizarUsuarios([3]),
+  [
+    body("id_usuario").isInt().withMessage("id_usuario inválido"),
+
+    body("id_obra_social").isInt().withMessage("id_obra_social inválido"),
+
+    validarCampos,
+  ],
+  pacientesController.create,
+);
+
 // DOCUMENTACION SWAGGER CAMBIAR OBRA SOCIAL
 /**
  * @swagger

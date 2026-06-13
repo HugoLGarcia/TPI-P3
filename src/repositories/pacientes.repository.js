@@ -23,6 +23,25 @@ class PacientesRepository {
     return rows;
   }
 
+  async create(idUsuario, idObraSocial) {
+    const sql = `
+        INSERT INTO pacientes
+        (id_usuario, id_obra_social)
+        VALUES (?, ?)
+    `;
+
+    const [result] = await pool.execute(sql, [
+        idUsuario,
+        idObraSocial
+    ]);
+
+    return {
+        id_paciente: result.insertId,
+        id_usuario: idUsuario,
+        id_obra_social: idObraSocial
+    };
+}
+
   async getById(id) {
     const sql = `
       SELECT
