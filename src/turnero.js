@@ -18,6 +18,7 @@ import authRoutes from "./routes/auth.routes.js";
 import especialidadesRoutes from "./routes/especialidades.routes.js";
 import obrassocialesRoutes from "./routes/obrassociales.routes.js";
 import medicosRoutes from "./routes/medicos.routes.js";
+import turnosRoutes from "./routes/turnos.routes.js";
 
 import { testConexion } from "./db/connection/test-connection.js";
 
@@ -103,6 +104,11 @@ app.use(
 app.use(
   "/api/v1/medicos",
   medicosRoutes
+);
+
+app.use(
+  "/api/v1/turnos",
+  turnosRoutes
 );
 
 export default app;
