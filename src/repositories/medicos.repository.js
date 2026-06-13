@@ -1,5 +1,39 @@
 import { pool } from "../db/connection/connection.js";
 
+
+const create = async (data) => {
+  const {
+    id_usuario,
+    id_especialidad,
+    matricula,
+    descripcion,
+    valor_consulta
+  } = data;
+
+  const [result] = await pool.query(
+    `INSERT INTO medicos
+     (id_usuario, id_especialidad, matricula, descripcion, valor_consulta)
+     VALUES (?, ?, ?, ?, ?)`,
+    [
+      id_usuario,
+      id_especialidad,
+      matricula,
+      descripcion,
+      valor_consulta
+    ]
+  );
+
+  return {
+    id_medico: result.insertId,
+    id_usuario,
+    id_especialidad,
+    matricula,
+    descripcion,
+    valor_consulta
+  };
+};
+
+
 const getAll = async () => {
   const [rows] = await pool.query(
     "SELECT * FROM v_medicos"
@@ -61,5 +95,6 @@ const asociarObrasSociales = async (id_medico, obras_sociales) => {
 export default {
   getAll,
   getById,
-  asociarObrasSociales
+  asociarObrasSociales,
+  create
 };

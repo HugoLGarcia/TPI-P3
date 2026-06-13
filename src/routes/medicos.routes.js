@@ -7,6 +7,8 @@ import autorizarUsuarios from "../middlewares/autorizarUsuarios.js";
 import medicosController from "../controllers/medicos.controller.js";
 import { validarCampos } from "../middlewares/validarCampos.js";
 
+import autenticarJWT from "../middlewares/autenticarJWT.js";
+
 const router = Router();
 
 //DOC. SWAGGER
@@ -24,6 +26,33 @@ const router = Router();
 
 // GET ALL
 router.get("/", medicosController.getAll);
+
+router.post(
+  "/",
+  autenticarJWT,
+  autorizarUsuarios([3]),
+
+  [
+    body("id_usuario").isInt().withMessage("id_usuario debe ser numérico"),
+
+    body("id_especialidad")
+      .isInt()
+      .withMessage("id_especialidad debe ser numérico"),
+
+    body("matricula").isInt().withMessage("matricula debe ser numérica"),
+
+    body("descripcion").optional().isString(),
+
+    body("valor_consulta")
+      .isDecimal()
+      .withMessage("valor_consulta debe ser decimal"),
+
+    validarCampos,
+  ],
+
+  medicosController.create,
+);
+
 //DOC. SWAGGER GET BY ID
 
 /**
@@ -53,6 +82,7 @@ router.get(
   [param("id").isInt().withMessage("El ID debe ser numérico"), validarCampos],
   medicosController.getById,
 );
+
 //DOC. SWAGGER ASOCIAR OBRAS SOCIALES
 /**
  * @swagger
