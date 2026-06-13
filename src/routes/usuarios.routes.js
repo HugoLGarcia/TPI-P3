@@ -1,11 +1,16 @@
 import { Router } from "express";
-import { body, param } from "express-validator";
+import multer from "multer";
+
+import { body, param, check } from "express-validator";
 import { validarCampos } from "../middlewares/validarCampos.js";
 import usuariosController from "../controllers/usuarios.controller.js";
 import passport from "passport";
 import autorizarUsuarios from "../middlewares/autorizarUsuarios.js";
 import autenticarJWT from "../middlewares/autenticarJWT.js";
 
+import { storage } from "../config/multer.js";
+
+const upload = multer({ storage });
 const router = Router();
 
 // BREAD
@@ -63,8 +68,12 @@ router.post(
 // Update
 router.put(
   "/:id",
+  upload.single("foto_path"),
   [
     param("id").isInt().withMessage("El ID debe ser numérico"),
+    body("documento").notEmpty().withMessage("Documento obligatorio"),
+    body("apellido").notEmpty().withMessage("Apellido obligatorio"),
+    body("nombres").notEmpty().withMessage("Nombres obligatorios"),
     body("email").optional().isEmail().withMessage("Email inválido"),
     body("contrasenia")
       .optional()

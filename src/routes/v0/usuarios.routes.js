@@ -1,6 +1,10 @@
 import { Router } from "express";
+import multer from "multer";
+
 import { validarCorreo } from "../../middlewares/validarCampos.js";
 import usuariosController from "../../controllers/v0/usuarios.controller.js";
+
+import { storage } from "../../config/multer.js";
 
 import usuariosRoutes from "../../routes/usuarios.routes.js";
 
