@@ -7,6 +7,9 @@ const getAll = () => usuariosRepository.getAll();
 // Obtener usuario por ID
 const getById = (id) => usuariosRepository.getById(id);
 
+// Obtener paciente por ID
+const getPacienteById = (id) => usuariosRepository.getPacienteById(id);
+
 // Crear usuario
 const create = async (data) => {
   const hash = crypto
@@ -53,6 +56,7 @@ const buscar = async (email, contrasenia) => {
 export default {
   getAll,
   getById,
+  getPacienteById,
   create,
   update,
   remove,

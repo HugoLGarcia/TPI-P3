@@ -17,6 +17,15 @@ const getById = async (id) => {
   return rows[0];
 };
 
+// Obtener paciente por ID (solo activos)
+const getPacienteById = async (id) => {
+  const [rows] = await pool.query(
+    "SELECT * FROM v_pacientes WHERE id_paciente = ?",
+    [id]
+  );
+  return rows[0];
+};
+
 // Crear usuario
 const create = async (data) => {
   const { documento, apellido, nombres, email, contrasenia, rol } = data;
@@ -123,6 +132,7 @@ const buscar = async (email, contrasenia) => {
 export default {
   getAll,
   getById,
+  getPacienteById,
   create,
   update,
   softDelete,

@@ -31,6 +31,18 @@ router.get(
   usuariosController.getById
 );
 
+// Obtener paciente por Id
+router.get(
+  "/:id/paciente",
+  //passport.authenticate("jwt", { session: false }),
+  //autorizarUsuarios([3]),
+  [
+    param("id").isInt().withMessage("El ID debe ser numérico"),
+    validarCampos
+  ],
+  usuariosController.getPacienteById
+);
+
 // Create
 router.post(
   "/",

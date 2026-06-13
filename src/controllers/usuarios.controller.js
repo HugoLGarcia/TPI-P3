@@ -43,6 +43,31 @@ const getById = async (req, res) => {
   }
 };
 
+// Obtener paciente por ID
+const getPacienteById = async (req, res) => {
+  try {
+    const data = await usuariosService.getPacienteById(req.params.id);
+
+    if (!data) {
+      return res.status(404).json({
+        estado: false,
+        mensaje: "Paciente no encontrado"
+      });
+    }
+
+    res.status(200).json({
+      estado: true,
+      usuario: data
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      estado: false,
+      mensaje: "Error al obtener paciente"
+    });
+  }
+};
+
 // Crear usuario
 const create = async (req, res) => {
   try {
@@ -130,6 +155,7 @@ const search = async (req, res) => {
 export default {
   getAll,
   getById,
+  getPacienteById,
   create,
   update,
   remove,

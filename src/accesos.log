@@ -1,7 +1,1 @@
-::ffff:127.0.0.1 - - [12/Jun/2026:23:20:24 +0000] "GET /api/v1/especialidades/ HTTP/1.1" 200 428 "-" "bruno-runtime/1.0"
-::ffff:127.0.0.1 - - [12/Jun/2026:23:20:26 +0000] "GET /api/v1/especialidades/ HTTP/1.1" 200 428 "-" "bruno-runtime/1.0"
-::ffff:127.0.0.1 - - [12/Jun/2026:23:20:29 +0000] "GET /api/v1/especialidades/ HTTP/1.1" 200 428 "-" "bruno-runtime/1.0"
-::ffff:127.0.0.1 - - [12/Jun/2026:23:20:31 +0000] "GET /api/v1/especialidades/ HTTP/1.1" 200 428 "-" "bruno-runtime/1.0"
-::ffff:127.0.0.1 - - [12/Jun/2026:23:20:45 +0000] "POST /api/v1/especialidades HTTP/1.1" 201 64 "-" "bruno-runtime/1.0"
-::ffff:127.0.0.1 - - [12/Jun/2026:23:20:52 +0000] "GET /api/v1/especialidades/ HTTP/1.1" 200 486 "-" "bruno-runtime/1.0"
-::ffff:127.0.0.1 - - [12/Jun/2026:23:21:00 +0000] "GET /api/v1/especialidades/ HTTP/1.1" 200 486 "-" "bruno-runtime/1.0"
+::ffff:127.0.0.1 - - [13/Jun/2026:11:15:49 +0000] "POST /api/v1/turnos HTTP/1.1" 201 52 "-" "bruno-runtime/1.0"

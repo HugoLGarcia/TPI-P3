@@ -1,0 +1,22 @@
+info:
+  name: V1_POST_TURNOS
+  type: http
+  seq: 18
+
+http:
+  method: POST
+  url: http://localhost:3000/api/v1/turnos
+  body:
+    type: json
+    data: |-
+      {
+        "id_medico": 3,
+        "id_paciente": 2,
+        "fecha_hora": "2026-06-13 11:00:00"
+      }
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

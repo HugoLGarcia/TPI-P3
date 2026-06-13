@@ -13,9 +13,8 @@ const getAll = async () => {
 const getById = async (id) => {
   const [rows] = await pool.query(
     `SELECT *
-     FROM v_medicos
-     WHERE id_medico = ?
-     AND activo = 1`,
+     FROM medicos
+     WHERE id_medico = ?`,
     [id]
   );
 
