@@ -2,13 +2,22 @@ import turnosReservasRepository from "../repositories/turnosReservas.repository.
 import medicosService from "./medicos.service.js";
 import pacientesService from "./pacientes.service.js";
 import obrasSocialesService from "./obrasSociales.service.js";
+import { toTurnoDTO } from "../dtos/turnosdto.js";
 
 const getAll = async (usuario) => {
+  let turnos;
+
   if (usuario.rol === 1) {
-    return await turnosReservasRepository.getTurnosByMedico(usuario.id_usuario);
+    turnos = await turnosReservasRepository.getTurnosByMedico(
+      usuario.id_usuario,
+    );
+  } else {
+    turnos = await turnosReservasRepository.getTurnosByPaciente(
+      usuario.id_usuario,
+    );
   }
 
-  return await turnosReservasRepository.getTurnosByPaciente(usuario.id_usuario);
+  return turnos.map(toTurnoDTO);
 };
 
 const create = async (turnoReserva) => {
