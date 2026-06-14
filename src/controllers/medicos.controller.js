@@ -33,6 +33,48 @@ const create = async (req, res) => {
   }
 };
 
+// Obtener médicos por especialidad
+/*const getByEspecialidad = async (req, res) => {
+  try {
+
+    const medicos = await medicosService.getByEspecialidad(
+      req.params.idEspecialidad
+    );
+
+    return res.status(200).json({
+      estado: true,
+      datos: medicos
+    });
+
+  } catch (error) {
+
+    return res.status(500).json({
+      estado: false,
+      mensaje: "Error interno"
+    });
+
+  }
+};*/
+const getByEspecialidad = async (req, res) => {
+  try {
+    const medicos = await medicosService.getByEspecialidad(
+      req.params.idEspecialidad,
+    );
+
+    return res.status(200).json({
+      estado: true,
+      datos: medicos,
+    });
+  } catch (error) {
+    console.error(error);
+
+    return res.status(500).json({
+      estado: false,
+      mensaje: "Error interno",
+    });
+  }
+};
+
 const getById = async (req, res) => {
   try {
     const medico = await medicosService.getById(req.params.id);
@@ -82,4 +124,5 @@ export default {
   getById,
   asociarObrasSociales,
   create,
+  getByEspecialidad,
 };

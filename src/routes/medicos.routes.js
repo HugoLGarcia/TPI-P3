@@ -76,6 +76,18 @@ router.post(
  *         description: Médico no encontrado
  */
 
+// especialidad
+router.get(
+  "/especialidad/:idEspecialidad",
+  [
+    param("idEspecialidad")
+      .isInt()
+      .withMessage("El ID de especialidad debe ser numérico"),
+    validarCampos,
+  ],
+  medicosController.getByEspecialidad,
+);
+
 // GET BY ID
 router.get(
   "/:id",

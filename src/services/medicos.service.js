@@ -14,10 +14,14 @@ const asociarObrasSociales = async (id_medico, obras_sociales) => {
     obras_sociales,
   );
 };
+// Obtener médicos por especialidad
+const getByEspecialidad = (idEspecialidad) =>
+  medicosRepository.getByEspecialidad(idEspecialidad);
 
 export default {
   getAll,
   getById,
   asociarObrasSociales,
   create,
+  getByEspecialidad,
 };
