@@ -20,7 +20,7 @@ const getAll = async (usuario) => {
   return turnos.map(toTurnoDTO);
 };
 
-const create = async (turnoReserva) => {
+const create = async (turnoReserva, usuario) => {
   const fechaTurno = new Date(turnoReserva.fecha_hora);
   const minutos = fechaTurno.getMinutes();
 
@@ -36,8 +36,8 @@ const create = async (turnoReserva) => {
 
   const paciente = await pacientesService.getById(turnoReserva.id_paciente);
 
-  if (!paciente) {
-    throw new Error("El paciente no existe");
+  if (usuario.rol === 2 && paciente.id_usuario !== usuario.id_usuario) {
+    throw new Error("El paciente solo puede reservar turnos propios");
   }
 
   const turnoMedicoExiste = await turnosReservasRepository.existeTurnoMedico(

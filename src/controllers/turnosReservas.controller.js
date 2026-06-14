@@ -7,8 +7,9 @@ const create = async (req, res) => {
     const turnoReserva = req.body;
 
     const nuevoTurno = await turnosReservasService.create(
-      turnoReserva
-    );
+  turnoReserva,
+  req.user
+);
 
     if (!nuevoTurno) {
 
