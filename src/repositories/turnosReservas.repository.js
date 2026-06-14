@@ -133,7 +133,23 @@ class TurnosReservasRepository {
     return turnos;
 }
 
+//marcar si esta atendido
+async marcarAtendido(id_turno) {
 
+    const sql = `
+        UPDATE turnos_reservas
+        SET atentido = 1
+        WHERE id_turno_reserva = ?
+        AND activo = 1
+    `;
+
+    const [result] = await pool.execute(
+        sql,
+        [id_turno]
+    );
+
+    return result.affectedRows;
+}
 
     async getTurnoById(id_turno) {
 
