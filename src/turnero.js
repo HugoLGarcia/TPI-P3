@@ -38,7 +38,7 @@ let log = fs.createWriteStream('./accesos.log', {
 app.use(morgan('dev'));
 app.use(morgan('combined', {stream: log}));
 
-//app.use(cors());
+app.use(cors());
 
 app.use(express.json());
 

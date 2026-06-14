@@ -185,6 +185,7 @@ router.delete("/:id", usuariosController.remove);
  */
 router.patch("/estado/:id", usuariosController.changeStateId);
 
+router.patch("/:id", usuariosController.update);
 
 router.patch("/correo/:id", validarCorreo, usuariosController.changeEmailId);
 

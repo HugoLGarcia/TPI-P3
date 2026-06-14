@@ -65,6 +65,11 @@ const update = async (id, data) => {
     valores.push(data.contrasenia);
   }
 
+  if (data.foto_path !== undefined && data.foto_path !== "") {
+    campos.push("foto_path = ?");
+    valores.push(data.foto_path);
+  }
+
   if (campos.length === 0) {
     throw new Error("No hay campos para actualizar");
   }

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actualizar usuario</title>
+    <link rel="stylesheet" href="multer.css">
+</head>
+
+<body>
+    <main class="card">
+        <section class="hero">
+            <p class="eyebrow">API TPI-P3</p>
+            <h1>Actualizar usuario ID 1</h1>
+            <p class="subtitle">El formulario envía un PATCH con multipart/form-data para que el backend procese la
+                imagen con multer y guarde el archivo en el servidor.</p>
+        </section>
+
+        <form id="form-usuario" >
+            <div class="field full" style="padding: 0 0 4px;">
+                <span class="hint">Método HTTP: PATCH</span>
+            </div>
+            <div class="grid">
+                
+                <div class="field">
+                    <label for="apellido">Apellido</label>
+                    <input id="apellido" name="apellido" type="text" value="" required>
+                </div>
+
+                <div class="field">
+                    <label for="nombres">Nombre</label>
+                    <input id="nombres" name="nombres" type="text" value="" required>
+                </div>
+
+                <div class="field">
+                    <label for="foto_path">Imagen</label>
+                    <div class="dropzone" id="dropzone" role="button" tabindex="0"
+                        aria-label="Seleccionar o arrastrar imagen">
+                        <strong>Arrastrá una imagen acá o hacé clic para seleccionarla</strong>
+                        <span>Opcional: si no subís archivo, el usuario se actualiza igual.</span>
+                        <input id="foto_path" name="foto_path" type="file" accept="image/*"
+                            style="position:absolute; inset:0; opacity:0; cursor:pointer;">
+                    </div>
+                </div>
+
+                <div class="field full">
+                    <label>Vista previa</label>
+                    <div class="preview">
+                        <img id="preview-imagen" alt="Vista previa de la imagen seleccionada">
+                        <div class="preview-text" id="preview-text">Todavía no se seleccionó ninguna imagen.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="actions">
+                <p class="hint">Al enviar, se ejecuta PATCH /api/v1/usuarios/1.</p>
+                <button type="submit">Actualizar usuario</button>
+            </div>
+
+            <div class="status" id="status">Esperando envío...</div>
+        </form>
+    </main>
+
+    <script>
+        const form = document.getElementById('form-usuario');
+        const statusBox = document.getElementById('status');
+        const fotoInput = document.getElementById('foto_path');
+        const previewImage = document.getElementById('preview-imagen');
+        const previewText = document.getElementById('preview-text');
+        const dropzone = document.getElementById('dropzone');
+
+        document.getElementById('form-usuario').addEventListener('submit', async (e) => {
+    e.preventDefault(); // Evita que la página se recargue
+
+    // 1. Cambiamos el estado visual para avisar al usuario
+    const statusDiv = document.getElementById('status');
+    statusDiv.textContent = 'Enviando actualización...';
+
+    // 2. Capturamos AUTOMÁTICAMENTE todos los campos (documento, apellido, nombres y la foto)
+    // Gracias a que tus inputs tienen el atributo 'name', FormData los asocia solos.
+    const formData = new FormData(e.target);
+
+    try {
+        // 3. Enviamos la petición al endpoint indicado en tu HTML
+        const respuesta = await fetch('http://localhost:3000/api/v1/usuarios/1', {
+            method: 'PATCH', // Método requerido por tu API
+            body: formData   // No agregamos Content-Type, el navegador pone multipart/form-data
+        });
+
+        // 4. Procesamos la respuesta del servidor
+        if (respuesta.ok) {
+            const resultado = await respuesta.json();
+            statusDiv.textContent = '¡Usuario actualizado con éxito!';
+            statusDiv.style.color = 'green'; // Opcional: estilo de éxito
+            console.log('Servidor respondió:', resultado);
+        } else {
+            statusDiv.textContent = `Error en el servidor (Código: ${respuesta.status})`;
+            statusDiv.style.color = 'red';
+        }
+
+    } catch (error) {
+        // 5. Capturamos errores de red (ej. si el servidor está caído)
+        statusDiv.textContent = 'Error de conexión. Inténtalo de nuevo.';
+        statusDiv.style.color = 'red';
+        console.error('Error en la petición:', error);
+    }
+});
+
+    </script>
+</body>
+
+</html>

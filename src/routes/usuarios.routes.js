@@ -84,6 +84,20 @@ router.put(
   usuariosController.update
 );
 
+// Update
+router.patch(
+  "/:id",
+  upload.single("foto_path"),
+  [
+    param("id").isInt().withMessage("El ID debe ser numérico"),
+    body("apellido").notEmpty().withMessage("Apellido obligatorio"),
+    body("nombres").notEmpty().withMessage("Nombres obligatorios"),
+    validarCampos
+  ],
+  usuariosController.update2);
+
+
+
 // Delete
 router.delete(
   "/:id",

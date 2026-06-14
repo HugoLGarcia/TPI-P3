@@ -92,6 +92,7 @@ const create = async (req, res) => {
 // Actualizar usuario
 const update = async (req, res) => {
   try {
+    
     if (Object.keys(req.body).length === 0) {
       return res.status(400).json({
         estado: false,
@@ -104,6 +105,41 @@ const update = async (req, res) => {
     res.status(200).json({
       estado: true,
       data: result
+    });
+
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      estado: false,
+      mensaje: "Error al actualizar usuario"
+    });
+  }
+};
+
+// Actualizar usuario con imagen multer
+const update2 = async (req, res) => {
+  try {
+    const datosActualizar = { ...req.body };
+
+    // 2. Si Multer atrapó un archivo, lo sumamos al objeto
+    if (req.file) {
+      datosActualizar.foto_path = req.file.filename; 
+    }
+
+    if (Object.keys(datosActualizar).length === 0) {
+      return res.status(400).json({
+        estado: false,
+        mensaje: "No hay campos para actualizar"
+      });
+    }
+
+    const result = await usuariosService.update(req.params.id, datosActualizar);
+
+    return res.status(200).json({
+      estado: true,
+      mensaje: "Usuario actualizado correctamente",
+      foto_actualizada: datosActualizar.foto_path || null
     });
 
   } catch (error) {
@@ -158,6 +194,7 @@ export default {
   getPacienteById,
   create,
   update,
+  update2,
   remove,
   search
 };
