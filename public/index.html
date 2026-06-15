@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Clínica - API Demo</title>
+
+  <link rel="stylesheet" href="/css/estilos.css" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"/>
+  <link rel="icon" href="/img/ico/Logo-Cruz2.ico" />
+</head>
+
+<body class="bg-light text-dark">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container">
+      <a class="navbar-brand fs-2 fw-bold" href="/">
+        <img src="/img/Logo-Cruz2.png" alt="Logo Clínica IDW" width="48" height="48" class="me-2"/>
+        <span class="d-none d-sm-inline">Clínica</span>
+      </a>
+
+      <div class="ms-auto">
+        <a href="/api-docs" target="_blank" class="btn btn-outline-light fw-bold">
+          <i class="bi bi-journal-code me-1"></i> Swagger
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container py-4">
+    <section class="mb-4">
+      <h2>Panel de prueba de la API REST</h2>
+      <p>
+        Cliente web simple para consumir endpoints del Trabajo Final Integrador.
+      </p>
+    </section>
+
+    <section class="row g-4">
+      <div class="col-lg-4">
+        <div class="card shadow-sm border-0">
+          <div class="card-body">
+            <h4 class="card-title text-primary fw-bold mb-3">
+              <i class="bi bi-person-circle me-2"></i>Login
+            </h4>
+
+            <div class="mb-3">
+              <label class="form-label fw-bold">Email</label>
+              <input id="email" type="email" class="form-control" value="ferben@correo.com">
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label fw-bold">Contraseña</label>
+              <input id="contrasenia" type="password" class="form-control" value="ferben">
+            </div>
+
+            <button id="btnLogin" class="btn btn-primary w-100 fw-bold">
+              <i class="bi bi-box-arrow-in-right me-1"></i> Ingresar
+            </button>
+
+            <p id="estadoLogin" class="mt-3 mb-0 small text-muted">
+              Sin sesión iniciada
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-8">
+        <div class="card shadow-sm border-0">
+          <div class="card-body">
+            <h4 class="card-title text-primary fw-bold mb-3">
+              <i class="bi bi-lightning-charge-fill me-2"></i>Acciones
+            </h4>
+
+            <div class="row g-2">
+              <div class="col-md-6">
+                <button id="btnEspecialidades" class="btn btn-outline-primary w-100">
+                  Especialidades
+                </button>
+              </div>
+              <div class="col-md-6">
+                <button id="btnMedicos" class="btn btn-outline-primary w-100">
+                  Médicos
+                </button>
+              </div>
+              <div class="col-md-6">
+                <button id="btnMedicosEspecialidad" class="btn btn-outline-primary w-100">
+                  Médicos por especialidad 1
+                </button>
+              </div>
+              <div class="col-md-6">
+                <button id="btnTurnos" class="btn btn-outline-primary w-100">
+                  Mis turnos
+                </button>
+              </div>
+              <div class="col-md-6">
+                <button id="btnEstadisticas" class="btn btn-outline-success w-100">
+                  Estadísticas generales
+                </button>
+              </div>
+              <div class="col-md-6">
+                <button id="btnPdf" class="btn btn-outline-danger w-100">
+                  Descargar PDF turnos
+                </button>
+              </div>
+            </div>
+
+            <hr>
+
+            <h5 class="fw-bold">Resultado API</h5>
+            <pre id="resultado" class="resultado-api">Esperando acción...</pre>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <section class="border-top py-5 mt-5 bg-body-secondary text-body">
+    <div class="container">
+      <div class="row text-center text-md-start">
+        <div class="col-md-4 mb-4">
+          <h5 class="fw-bold text-primary mb-3">HORARIO DE ATENCIÓN</h5>
+          <p class="mb-2">Lunes a viernes de <strong>8:30 hs a 20:30 hs</strong></p>
+        </div>
+
+        <div class="col-md-4 mb-4">
+          <h5 class="fw-bold text-primary mb-3">CONTACTO</h5>
+          <p class="mb-1"><i class="bi bi-geo-alt-fill me-2 text-primary"></i>Sarmiento 234, Concordia</p>
+          <p class="mb-1"><i class="bi bi-telephone-fill me-2 text-primary"></i>(0343) 456-7890</p>
+          <p class="mb-1"><i class="bi bi-envelope-fill me-2 text-primary"></i>contacto.idwsa@gmail.com</p>
+        </div>
+
+        <div class="col-md-4 mb-4">
+          <h5 class="fw-bold text-primary mb-3">DOCUMENTACIÓN</h5>
+          <a href="/api-docs" target="_blank" class="btn btn-outline-primary btn-sm">
+            Abrir Swagger
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="bg-dark text-white text-center py-3 fw-bold">
+    <p>&copy; 2026 Clínica - TPI Programación III</p>
+  </footer>
+
+  <script src="/js/app.js"></script>
+</body>
+</html>
