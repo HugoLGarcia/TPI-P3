@@ -19,13 +19,13 @@ const getById = async (id) => {
 
 // Crear usuario
 const create = async (data) => {
-  const { documento, apellido, nombres, email, contrasenia, rol } = data;
+  const { documento, apellido, nombres, email, contrasenia, rol, foto_path = "" } = data;
 
   const [result] = await pool.query(
     `INSERT INTO usuarios 
-    (documento, apellido, nombres, email, contrasenia, rol, activo)
-    VALUES (?, ?, ?, ?, ?, ?, 1)`,
-    [documento, apellido, nombres, email, contrasenia, rol]
+    (documento, apellido, nombres, email, contrasenia, foto_path, rol, activo)
+    VALUES (?, ?, ?, ?, ?, ?, ?, 1)`,
+    [documento, apellido, nombres, email, contrasenia, foto_path, rol]
   );
 
   return { id: result.insertId };
@@ -51,9 +51,24 @@ const update = async (id, data) => {
     valores.push(data.email);
   }
 
-  if (data.contrasenia !== undefined && data.contrasenia !== "") {
+if (data.contrasenia !== undefined && data.contrasenia !== "") {
     campos.push("contrasenia = ?");
     valores.push(data.contrasenia);
+  }
+
+  if (data.documento !== undefined && data.documento !== "") {
+    campos.push("documento = ?");
+    valores.push(data.documento);
+  }
+
+  if (data.rol !== undefined && data.rol !== "") {
+    campos.push("rol = ?");
+    valores.push(data.rol);
+  }
+
+  if (data.foto_path !== undefined) {
+    campos.push("foto_path = ?");
+    valores.push(data.foto_path);
   }
 
   if (campos.length === 0) {
