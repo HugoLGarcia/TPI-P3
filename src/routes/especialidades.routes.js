@@ -32,7 +32,7 @@ const router = Router();
 router.get(
   "/",
   passport.authenticate("jwt", { session: false }),
-  autorizarUsuarios([3]),
+  autorizarUsuarios([2, 3]),
   especialidadesController.getAll,
 );
 //documentacion Swagger GET BY ID
@@ -64,7 +64,7 @@ router.get(
   "/:id",
   [
     passport.authenticate("jwt", { session: false }),
-    autorizarUsuarios([3]),
+    autorizarUsuarios([2, 3]),
     param("id").isInt().withMessage("El ID debe ser numérico"),
     validarCampos,
   ],

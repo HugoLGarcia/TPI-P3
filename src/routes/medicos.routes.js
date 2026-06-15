@@ -24,8 +24,13 @@ const router = Router();
  *         description: Lista de médicos
  */
 
-// GET ALL
-router.get("/", medicosController.getAll);
+// GET ALL 
+router.get(
+  "/",
+  passport.authenticate("jwt", { session: false }),
+  autorizarUsuarios([2, 3]),
+  medicosController.getAll,
+);
 
 router.post(
   "/",
@@ -80,6 +85,8 @@ router.post(
 router.get(
   "/especialidad/:idEspecialidad",
   [
+    passport.authenticate("jwt", { session: false }),
+    autorizarUsuarios([2, 3]),
     param("idEspecialidad")
       .isInt()
       .withMessage("El ID de especialidad debe ser numérico"),
@@ -91,7 +98,12 @@ router.get(
 // GET BY ID
 router.get(
   "/:id",
-  [param("id").isInt().withMessage("El ID debe ser numérico"), validarCampos],
+  [
+    passport.authenticate("jwt", { session: false }),
+    autorizarUsuarios([2, 3]),
+    param("id").isInt().withMessage("El ID debe ser numérico"),
+    validarCampos,
+  ],
   medicosController.getById,
 );
 

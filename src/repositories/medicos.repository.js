@@ -64,9 +64,10 @@ const getByEspecialidad = async (idEspecialidad) => {
 };
 
 const getById = async (id) => {
-  const [rows] = await pool.query("SELECT * FROM medicos WHERE id_medico = ?", [
-    id,
-  ]);
+  const [rows] = await pool.query(
+    "SELECT * FROM medicos WHERE id_medico = ?",
+    [id],
+  );
 
   return rows[0];
 };
@@ -82,7 +83,7 @@ const asociarObrasSociales = async (id_medico, obras_sociales) => {
         `INSERT INTO medicos_obras_sociales
          (id_medico, id_obra_social)
          VALUES (?, ?)`,
-        [id_medico, os.id_obra_social],
+        [id_medico, os],
       );
     }
 
