@@ -1,4 +1,5 @@
 import usuariosRepository from "../repositories/usuarios.repository.js";
+import pacientesRepository from "../repositories/pacientes.repository.js";
 import crypto from "crypto";
 
 const getAll = () => usuariosRepository.getAll();
@@ -13,7 +14,18 @@ const create = async (data) => {
 
   const newData = { ...data, contrasenia: hash };
 
-  return await usuariosRepository.create(newData);
+  const usuario = await usuariosRepository.create(newData);
+
+  if (Number(data.rol) === 2) {
+    const idObraSocial = data.id_obra_social || 5; // Asignar obra social por defecto si no se proporciona
+
+    await pacientesRepository.create(
+      usuario.id_usuario || usuario.id,
+      idObraSocial,
+    );
+  }
+
+  return usuario;
 };
 
 const update = async (id, data) => {
