@@ -32,6 +32,63 @@ router.get(
   medicosController.getAll,
 );
 
+
+//DOC. SWAGGER CREATE MEDICO
+/**
+ * @swagger
+ * /medicos:
+ *   post:
+ *     summary: Crear médico completando un usuario existente con rol médico
+ *     tags:
+ *       - Médicos
+ *     security:
+ *       - bearerAuth: []
+ *     description: Primero debe existir un usuario con rol médico. Este endpoint crea el perfil médico asociado a ese id_usuario.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - id_usuario
+ *               - id_especialidad
+ *               - matricula
+ *               - valor_consulta
+ *             properties:
+ *               id_usuario:
+ *                 type: integer
+ *                 example: 8
+ *               id_especialidad:
+ *                 type: integer
+ *                 example: 1
+ *               matricula:
+ *                 type: integer
+ *                 example: 12345
+ *               descripcion:
+ *                 type: string
+ *                 example: Cardiología general
+ *               valor_consulta:
+ *                 type: number
+ *                 example: 5000
+ *               obras_sociales:
+ *                 type: array
+ *                 items:
+ *                   type: integer
+ *                 example: [1, 2]
+ *     responses:
+ *       201:
+ *         description: Médico creado correctamente
+ *       400:
+ *         description: Datos inválidos
+ *       401:
+ *         description: No autorizado
+ *       403:
+ *         description: Sin permisos
+ *       500:
+ *         description: Error interno
+ */
+
 router.post(
   "/",
   autenticarJWT,

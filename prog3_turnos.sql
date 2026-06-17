@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 15-06-2026 a las 01:42:03
+-- Tiempo de generación: 17-06-2026 a las 03:13:19
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -192,7 +192,7 @@ CREATE TABLE IF NOT EXISTS `obras_sociales` (
   `activo` tinyint(3) UNSIGNED NOT NULL DEFAULT 1,
   PRIMARY KEY (`id_obra_social`),
   UNIQUE KEY `nombre` (`nombre`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `obras_sociales`
@@ -202,7 +202,8 @@ INSERT INTO `obras_sociales` (`id_obra_social`, `nombre`, `descripcion`, `porcen
 (1, 'Jerárquicos', 'jer', 10.00, 0, 1),
 (2, 'OSUNER', 'osu', 10.00, 0, 1),
 (3, 'OSECAC', 'ose', 11.00, 0, 1),
-(4, 'OSUNER 3', 'OSU', 13.00, 0, 1);
+(4, 'OSUNER 3', 'OSU', 13.00, 0, 1),
+(5, 'Particular', 'Paciente sin obra social', 0.00, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -218,7 +219,7 @@ CREATE TABLE IF NOT EXISTS `pacientes` (
   PRIMARY KEY (`id_paciente`),
   KEY `fk_pacientes_obras_sociales` (`id_obra_social`),
   KEY `fk_pacientes_usuarios` (`id_usuario`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `pacientes`
@@ -228,7 +229,9 @@ INSERT INTO `pacientes` (`id_paciente`, `id_usuario`, `id_obra_social`) VALUES
 (1, 5, 2),
 (2, 6, 2),
 (3, 7, 3),
-(4, 8, 1);
+(4, 8, 1),
+(7, 20, 1),
+(8, 21, 5);
 
 -- --------------------------------------------------------
 
@@ -287,7 +290,7 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
   PRIMARY KEY (`id_usuario`),
   UNIQUE KEY `documento` (`documento`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `usuarios`
@@ -304,7 +307,10 @@ INSERT INTO `usuarios` (`id_usuario`, `documento`, `apellido`, `nombres`, `email
 (8, '51000111', 'Fernandez', 'Benito', 'ferben@correo.com', 'f127f4e9e4248f77eaa446ea9bff721e3e79eedf114ba6e1cfc633853ef07b4c', '', 3, 1),
 (10, '51000112', 'Gomez', 'Silvia', 'gomsil@correo.com', '601de117008d80e65ffad05dce97462d8f1b1e9aad6d68cf2b289703b8366b52', '', 3, 1),
 (13, '40111222', 'Perez', 'Juan', 'juan@test.com', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', '', 2, 1),
-(15, '40111223', 'Perez', 'Carlos', 'carlos.perez@test.com', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', '', 2, 1);
+(15, '40111223', 'Perez', 'Carlos', 'carlos.perez@test.com', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', '', 2, 1),
+(17, '401112555', 'Prueba', 'Paciente', 'pacienteprueba22@correo.com', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', '', 2, 1),
+(20, '50999112', 'Auto', 'Paciente', 'autopaciente50999112@correo.com', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', '', 2, 1),
+(21, '50999113', 'PruebaAuto', 'PacienteAuto', 'pacienteauto50999113@correo.com', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', '', 2, 1);
 
 -- --------------------------------------------------------
 
