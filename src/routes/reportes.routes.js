@@ -8,7 +8,7 @@ const router = Router();
 // DOC. SWAGGER
 /**
  * @swagger
- * /api/v1/reportes/turnos/pdf:
+ * /reportes/turnos/pdf:
  *   get:
  *     summary: Generar reporte PDF de turnos
  *     tags: [Reportes]
